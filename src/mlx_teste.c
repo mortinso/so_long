@@ -37,7 +37,6 @@ int	destruct(t_game *var)
 	mlx_destroy_image(var->mlx, var->sprite.player_down);
 	mlx_destroy_image(var->mlx, var->sprite.player_right);
 /* 	mlx_destroy_image(var->mlx, var->sprite.cursor); */
-	mlx_destroy_image(var->mlx, var->player.img);
 	mlx_clear_window(var->mlx, var->win);
 	mlx_destroy_window(var->mlx, var->win);
 	mlx_destroy_display(var->mlx);
@@ -48,9 +47,11 @@ int	destruct(t_game *var)
 
 int put_error(int n, t_game *var)
 {
-	if (n == 1)
+	if (n == 0)
+		ft_printf("ERROR:\n Input ONE .ber file.");
+	if (n == 4)
 		ft_printf("Error\nFailed to initiate mlx.");
-	if (n == 2)
+	if (n == 5)
 		ft_printf("Error\nFailed to create a new window.");
 	destruct(var);
 	return (0);
@@ -238,16 +239,16 @@ int	render_frame(t_game *var)
 	return (0);
 } */
 
-int	mouse(int button, int x, int y, t_game *var)
+/* int	mouse(int button, int x, int y, t_game *var)
 {
 	if (button == 1)
 	{
 		if ((x >= var->player.x && x <= (var->player.x + SPRITE_SIZE)) && (y >= var->player.y && y <= (var->player.y + SPRITE_SIZE)))
 			ft_printf("Ouch!\n");
-			/* destruct(var); */
+			destruct(var);
 	}
 	return (0);
-}
+} */
 
 /* int	position(int x, int y, t_game *var)
 {
@@ -277,30 +278,41 @@ int	mouse(int button, int x, int y, t_game *var)
 	}
 } */
 
+void	move(t_game *var, char direction)
+{
+	if (direction == 'u' && (var->player.y - SPRITE_SIZE >= 0))
+		var->player.y -= SPRITE_SIZE;
+	if (direction == 'l' && (var->player.x - SPRITE_SIZE >= 0))
+		var->player.x -= SPRITE_SIZE;
+	if (direction == 'd' && (var->player.y + (SPRITE_SIZE * 2) <= WIN_HEIGHT))
+		var->player.y += SPRITE_SIZE;
+	if (direction == 'r' && (var->player.x + (SPRITE_SIZE * 2) <= WIN_WIDTH))\
+		var->player.x += SPRITE_SIZE;
+}
+
 int	keypress(int key, t_game *var)
 {
 	if (key == KEY_ESC)
 		destruct(var);
-	if ((key == KEY_W || key == KEY_UP) && (var->player.y - SPRITE_SIZE >= 0))
+	if (key == KEY_W || key == KEY_UP)
 	{
-		var->player.y -= SPRITE_SIZE;
 		var->player.img = var->sprite.player_up;
+		move(var, 'u');
 	}
-	if ((key == KEY_A || key == KEY_LEFT) && (var->player.x - SPRITE_SIZE >= 0))
+	if (key == KEY_A || key == KEY_LEFT)
 	{
-		var->player.x -= SPRITE_SIZE;
 		var->player.img = var->sprite.player_left;
+		move(var, 'l');
 	}
-	if ((key == KEY_S || key == KEY_DOWN) && (var->player.y + (SPRITE_SIZE * 2) <= WIN_HEIGHT))
+	if (key == KEY_S || key == KEY_DOWN)
 	{
-		var->player.y += SPRITE_SIZE;
 		var->player.img = var->sprite.player_down;
-
+		move(var, 'd');
 	}
-	if ((key == KEY_D || key == KEY_RIGHT) && (var->player.x + (SPRITE_SIZE * 2) <= WIN_WIDTH))
+	if (key == KEY_D || key == KEY_RIGHT)
 	{
-		var->player.x += SPRITE_SIZE;
 		var->player.img = var->sprite.player_right;
+		move(var, 'r');
 	}
 	return (0);
 }
@@ -325,18 +337,22 @@ void	img_init(t_game *var)
 	img_fix(var, &var->player.img, SPRITE_SIZE, 0x0000FF1F);
 } */
 
-int	main(void)
+int	main(int argc, char *argv)
 {
 	t_game	var;
+	int		fd;
 
+	if (argc != 2)
+		return (put_error(0, &var));
+	fd = open(argv[1], O_RDONLY);
 	var.mlx = mlx_init();
 	if (var.mlx == NULL)
-		return (put_error(1, &var));
+		return (put_error(4, &var));
 	var.win = mlx_new_window(var.mlx, WIN_WIDTH, WIN_HEIGHT, "teste");
 	if (var.win == NULL)
 	{
 		free (var.win);
-		return (put_error(2, &var));
+		return (put_error(5, &var));
 	}
 /* 	var.sprite.wall.img = mlx_new_image(var.mlx, SPRITE_SIZE, SPRITE_SIZE);
 	var.sprite.wall.addr = mlx_get_data_addr(var.sprite.wall.img, &var.sprite.wall.bpp, &var.sprite.wall.length, &var.sprite.wall.endian); */
@@ -351,8 +367,8 @@ int	main(void)
 	mlx_hook(var.win, 2, 1L<<0, keypress, &var);
 	mlx_hook(var.win, 17, 0L, destruct, &var);
 	/* mlx_hook(var.win, 4, 1L<<2, mouse, &var); */
-/* 	mlx_hook(var.win, 6, 1L<<6, position, &var); */
-/* 	mlx_hook(var.win, 7, 1L<<4, join, &var);
+/* 	mlx_hook(var.win, 6, 1L<<6, position, &var);
+	mlx_hook(var.win, 7, 1L<<4, join, &var);
 	mlx_hook(var.win, 8, 1L<<5, bye, &var); */
 	mlx_loop_hook(var.mlx, render_frame, &var);
 	mlx_loop(var.mlx);

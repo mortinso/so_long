@@ -15,7 +15,7 @@
 #define WIN_WIDTH 1408
 #define WIN_HEIGHT 896
 
-#define PATH_CURSOR "sprites/cursor.xpm"
+/* #define PATH_CURSOR "sprites/cursor.xpm" */
 
 /* typedef struct	s_img {
 	void	*img;
@@ -32,7 +32,11 @@
 int	destruct(t_game *var)
 {
 	mlx_destroy_image(var->mlx, var->sprite.floor);
-	mlx_destroy_image(var->mlx, var->sprite.cursor);
+	mlx_destroy_image(var->mlx, var->sprite.player_up);
+	mlx_destroy_image(var->mlx, var->sprite.player_left);
+	mlx_destroy_image(var->mlx, var->sprite.player_down);
+	mlx_destroy_image(var->mlx, var->sprite.player_right);
+/* 	mlx_destroy_image(var->mlx, var->sprite.cursor); */
 	mlx_destroy_image(var->mlx, var->player.img);
 	mlx_clear_window(var->mlx, var->win);
 	mlx_destroy_window(var->mlx, var->win);
@@ -67,19 +71,19 @@ int	render_frame(t_game *var)
 		x = 0;
 		y += SPRITE_SIZE;
 	}
-	if (var->cursor.cursor == 1)
-		mlx_put_image_to_window(var->mlx, var->win, var->sprite.cursor, var->cursor.x, var->cursor.y);
+	/* if (var->cursor.cursor == 1)
+		mlx_put_image_to_window(var->mlx, var->win, var->sprite.cursor, var->cursor.x, var->cursor.y); */
 	mlx_put_image_to_window(var->mlx, var->win, var->player.img, var->player.x, var->player.y);
 	return (0);
 }
 
-void	my_pixel_put(t_data *data, int x, int y, int color)
+/* void	my_pixel_put(t_data *data, int x, int y, int color)
 {
 	char *dst;
 
 	dst = data->addr + (y * data->length + x * (data->bpp / 8));
 	*(unsigned int*)dst = color;
-}
+} */
 
 /* int	grid(t_img *img)
 {
@@ -220,19 +224,19 @@ void	my_pixel_put(t_data *data, int x, int y, int color)
 	}
 } */
 
-int	join(t_game *var)
+/* int	join(t_game *var)
 {
 	var->cursor.cursor = 1;
-	/* ft_printf("hello dear!\n"); */
+	ft_printf("hello dear!\n");
 	return (0);
-}
+} */
 
-int	bye(t_game *var)
+/* int	bye(t_game *var)
 {
 	var->cursor.cursor = 0;
-	/* ft_printf("farewell\n"); */
+	ft_printf("farewell\n");
 	return (0);
-}
+} */
 
 int	mouse(int button, int x, int y, t_game *var)
 {
@@ -245,13 +249,13 @@ int	mouse(int button, int x, int y, t_game *var)
 	return (0);
 }
 
-int	position(int x, int y, t_game *var)
+/* int	position(int x, int y, t_game *var)
 {
 	var->cursor.x = x;
 	var->cursor.y = y;
 	ft_printf("x: %d   y: %d\n", var->cursor.x, var->cursor.y);
 	return (0);
-}
+} */
 
 /* void	img_fix(t_data *data, int size, unsigned int del)
 {
@@ -265,7 +269,7 @@ int	position(int x, int y, t_game *var)
 		{
 			color = data->addr + (y * data->length + x * (data->bpp / 8));
 			if (*(unsigned int*)color == del)
-				*(unsigned int*)color = 0xFF000000;
+				*(unsigned int*)color = 0x########;
 			x++;
 		}
 		x = 0;
@@ -277,25 +281,26 @@ int	keypress(int key, t_game *var)
 {
 	if (key == KEY_ESC)
 		destruct(var);
-	if (key == KEY_W || key == KEY_UP)
+	if ((key == KEY_W || key == KEY_UP) && (var->player.y - SPRITE_SIZE >= 0))
 	{
-		if (var->player.y - SPRITE_SIZE >= 0)
-			var->player.y -= SPRITE_SIZE;
+		var->player.y -= SPRITE_SIZE;
+		var->player.img = var->sprite.player_up;
 	}
-	if (key == KEY_A || key == KEY_LEFT)
+	if ((key == KEY_A || key == KEY_LEFT) && (var->player.x - SPRITE_SIZE >= 0))
 	{
-		if (var->player.x - SPRITE_SIZE >= 0)
-			var->player.x -= SPRITE_SIZE;
+		var->player.x -= SPRITE_SIZE;
+		var->player.img = var->sprite.player_left;
 	}
-	if (key == KEY_S || key == KEY_DOWN)
+	if ((key == KEY_S || key == KEY_DOWN) && (var->player.y + (SPRITE_SIZE * 2) <= WIN_HEIGHT))
 	{
-		if (var->player.y + (SPRITE_SIZE * 2) <= WIN_HEIGHT)
-			var->player.y += SPRITE_SIZE;
+		var->player.y += SPRITE_SIZE;
+		var->player.img = var->sprite.player_down;
+
 	}
-	if (key == KEY_D || key == KEY_RIGHT)
+	if ((key == KEY_D || key == KEY_RIGHT) && (var->player.x + (SPRITE_SIZE * 2) <= WIN_WIDTH))
 	{
-		if (var->player.x + (SPRITE_SIZE * 2) <= WIN_WIDTH)
-			var->player.x += SPRITE_SIZE;
+		var->player.x += SPRITE_SIZE;
+		var->player.img = var->sprite.player_right;
 	}
 	return (0);
 }
@@ -303,11 +308,15 @@ int	keypress(int key, t_game *var)
 void	img_init(t_game *var)
 {
 	int	i = SPRITE_SIZE;
-	int	j = 36;
+	/* int	j = 36; */
 
-	var->sprite.floor = mlx_xpm_file_to_image(var->mlx, PATH_floor, &i, &i);
-	var->player.img = mlx_xpm_file_to_image(var->mlx, PATH_BALL , &i, &i);
-	var->sprite.cursor = mlx_xpm_file_to_image(var->mlx, PATH_CURSOR , &j, &j);
+	var->sprite.floor = mlx_xpm_file_to_image(var->mlx, PATH_FLOOR, &i, &i);
+	var->sprite.player_up = mlx_xpm_file_to_image(var->mlx, PATH_PLAYER_U, &i, &i);
+	var->sprite.player_left = mlx_xpm_file_to_image(var->mlx, PATH_PLAYER_L, &i, &i);
+	var->sprite.player_down = mlx_xpm_file_to_image(var->mlx, PATH_PLAYER_D, &i, &i);
+	var->sprite.player_right = mlx_xpm_file_to_image(var->mlx, PATH_PLAYER_R, &i, &i);
+	var->player.img = var->sprite.player_down;
+	/* var->sprite.cursor = mlx_xpm_file_to_image(var->mlx, PATH_CURSOR , &j, &j); */
 }
 
 /* void	img_addr(t_game *var)
@@ -342,9 +351,9 @@ int	main(void)
 	mlx_hook(var.win, 2, 1L<<0, keypress, &var);
 	mlx_hook(var.win, 17, 0L, destruct, &var);
 	/* mlx_hook(var.win, 4, 1L<<2, mouse, &var); */
-	mlx_hook(var.win, 6, 1L<<6, position, &var);
-	mlx_hook(var.win, 7, 1L<<4, join, &var);
-	mlx_hook(var.win, 8, 1L<<5, bye, &var);
+/* 	mlx_hook(var.win, 6, 1L<<6, position, &var); */
+/* 	mlx_hook(var.win, 7, 1L<<4, join, &var);
+	mlx_hook(var.win, 8, 1L<<5, bye, &var); */
 	mlx_loop_hook(var.mlx, render_frame, &var);
 	mlx_loop(var.mlx);
 }

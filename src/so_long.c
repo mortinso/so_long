@@ -17,10 +17,18 @@
 
 int	destruct(t_game *var)
 {
+	mlx_destroy_image(var->mlx, var->sprite.coin);
+	mlx_destroy_image(var->mlx, var->sprite.wall);
+	mlx_destroy_image(var->mlx, var->sprite.floor);
+	mlx_destroy_image(var->mlx, var->sprite.player_up);
+	mlx_destroy_image(var->mlx, var->sprite.player_left);
+	mlx_destroy_image(var->mlx, var->sprite.player_down);
+	mlx_destroy_image(var->mlx, var->sprite.player_right);
 	mlx_destroy_image(var->mlx, var->player.img);
 	mlx_clear_window(var->mlx, var->win);
 	mlx_destroy_window(var->mlx, var->win);
 	mlx_destroy_display(var->mlx);
+	free(var->mlx);
 	exit (0);
 	return (0);
 }
@@ -45,34 +53,44 @@ int	keypress(int key, t_game *var)
 {
 	if (key == KEY_ESC)
 		destruct(var);
-	if (key == KEY_W || key == KEY_UP)
+	if ((key == KEY_W || key == KEY_UP) && (var->player.y - SPRITE_SIZE >= 0))
 	{
-		if (var->player.y - SPRITE_SIZE >= 0)
-			var->player.y -= SPRITE_SIZE;
+		var->player.y -= SPRITE_SIZE;
+		var->player.img = var->sprite.player_up;
 	}
-	if (key == KEY_A || key == KEY_LEFT)
+	if ((key == KEY_A || key == KEY_LEFT) && (var->player.x - SPRITE_SIZE >= 0))
 	{
-		if (var->player.x - SPRITE_SIZE >= 0)
-			var->player.x -= SPRITE_SIZE;
+		var->player.x -= SPRITE_SIZE;
+		var->player.img = var->sprite.player_left;
 	}
-	if (key == KEY_S || key == KEY_DOWN)
+	if ((key == KEY_S || key == KEY_DOWN) && (var->player.y + (SPRITE_SIZE * 2) <= WIN_HEIGHT))
 	{
-		if (var->player.y + (SPRITE_SIZE * 2) <= WIN_HEIGHT)
-			var->player.y += SPRITE_SIZE;
+		var->player.y += SPRITE_SIZE;
+		var->player.img = var->sprite.player_down;
+
 	}
-	if (key == KEY_D || key == KEY_RIGHT)
+	if ((key == KEY_D || key == KEY_RIGHT) && (var->player.x + (SPRITE_SIZE * 2) <= WIN_WIDTH))
 	{
-		if (var->player.x + (SPRITE_SIZE * 2) <= WIN_WIDTH)
-			var->player.x += SPRITE_SIZE;
+		var->player.x += SPRITE_SIZE;
+		var->player.img = var->sprite.player_right;
 	}
 	return (0);
 }
 
-void	imageinit(t_game *var)
+void	img_init(t_game *var)
 {
 	int	i = SPRITE_SIZE;
 
-	var->player.img = mlx_xpm_file_to_image(var->mlx, PATH_BALL , &i, &i);
+	var->sprite.wall = mlx_xpm_file_to_image(var->mlx, PATH_WALL, &i, &i);
+	var->sprite.floor = mlx_xpm_file_to_image(var->mlx, PATH_FLOOR, &i, &i);
+	var->sprite.player_up = mlx_xpm_file_to_image(var->mlx, PATH_PLAYER_U, &i, &i);
+	var->sprite.player_left = mlx_xpm_file_to_image(var->mlx, PATH_PLAYER_L, &i, &i);
+	var->sprite.player_down = mlx_xpm_file_to_image(var->mlx, PATH_PLAYER_D, &i, &i);
+	var->sprite.player_right = mlx_xpm_file_to_image(var->mlx, PATH_PLAYER_R, &i, &i);
+	var->sprite.coin = mlx_xpm_file_to_image(var->mlx, PATH_COIN, &i, &i);
+	var->player.img = var->sprite.player_down;
+	var.player.x = 0;
+	var.player.y = 0;
 }
 
 int	main(void)
@@ -82,14 +100,13 @@ int	main(void)
 	var.mlx = mlx_init();
 	if (var.mlx == NULL)
 		return (put_error(1, &var));
-	var.win = mlx_new_window(var.mlx, WIN_WIDTH, WIN_HEIGHT, "so_long");
+	var.win = mlx_new_window(var.mlx, WIN_WIDTH, WIN_HEIGHT, "Pokemon Rip-Off");
 	if (var.win == NULL)
 	{
 		free(var.win);
 		return (put_error(2, &var));
 	}
-	var.player.x = 0;
-	var.player.y = 0;
+	img_init(&var);;
 	mlx_hook(var.win, 17, 0L, destruct, &var);
 	mlx_hook(var.win, 2, 1L<<0, keypress, &var);
 	mlx_loop_hook(var.mlx, render_frame, &var);

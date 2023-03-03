@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 14:44:02 by mortins-          #+#    #+#             */
-/*   Updated: 2023/03/01 17:24:35 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/03/03 19:15:35 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,31 @@ int	destruct(t_game *var)
 	mlx_clear_window(var->mlx, var->win);
 	mlx_destroy_window(var->mlx, var->win);
 	mlx_destroy_display(var->mlx);
+	while (var->map.map_y)
+		free(var->map.map[--var->map.map_y]);
+	free(var->map.map);
 	free(var->mlx);
 	exit (0);
 	return (0);
 }
 
-int put_error(int n, t_game *var)
+int put_error(int error, t_game *var)
 {
-	if (n == 0)
-		ft_printf("ERROR:\n Input ONE .ber file.");
-	if (n == 4)
+	if (error == 0)
+		ft_printf("ERROR:\n Input ONE map file.");
+	if (error == 1)
+		ft_printf("ERROR:\n The map file is empty.");
+	if (error == 2)
+		ft_printf("ERROR:\n The map file contains a forbidden character.");
+	if (error == 3)
+		ft_printf("ERRPR:\n Failed to allocate memory.");
+	if (error == 9)
 		ft_printf("Error\nFailed to initiate mlx.");
-	if (n == 5)
+	if (error == 10)
 		ft_printf("Error\nFailed to create a new window.");
-	destruct(var);
+	if (error > 3)
+		destruct(var);
+	exit(0);
 	return (0);
 }
 
@@ -328,6 +339,8 @@ void	img_init(t_game *var)
 	var->sprite.player_down = mlx_xpm_file_to_image(var->mlx, PATH_PLAYER_D, &i, &i);
 	var->sprite.player_right = mlx_xpm_file_to_image(var->mlx, PATH_PLAYER_R, &i, &i);
 	var->player.img = var->sprite.player_down;
+	var->player.x = 0;
+	var->player.y = 0;
 	/* var->sprite.cursor = mlx_xpm_file_to_image(var->mlx, PATH_CURSOR , &j, &j); */
 }
 
@@ -337,39 +350,36 @@ void	img_init(t_game *var)
 	img_fix(var, &var->player.img, SPRITE_SIZE, 0x0000FF1F);
 } */
 
-int	main(int argc, char *argv)
+int	main(int argc, char **argv)
 {
 	t_game	var;
-	int		fd;
 
 	if (argc != 2)
-		return (put_error(0, &var));
-	fd = open(argv[1], O_RDONLY);
+		put_error(0, &var);
+	get_map(&var, argv[1]);
 	var.mlx = mlx_init();
 	if (var.mlx == NULL)
-		return (put_error(4, &var));
+		return (put_error(9, &var));
 	var.win = mlx_new_window(var.mlx, WIN_WIDTH, WIN_HEIGHT, "teste");
 	if (var.win == NULL)
 	{
 		free (var.win);
-		return (put_error(5, &var));
+		return (put_error(10, &var));
 	}
-/* 	var.sprite.wall.img = mlx_new_image(var.mlx, SPRITE_SIZE, SPRITE_SIZE);
-	var.sprite.wall.addr = mlx_get_data_addr(var.sprite.wall.img, &var.sprite.wall.bpp, &var.sprite.wall.length, &var.sprite.wall.endian); */
+	/*var.sprite.wall.img = mlx_new_image(var.mlx, SPRITE_SIZE, SPRITE_SIZE);
+		var.sprite.wall.addr = mlx_get_data_addr(var.sprite.wall.img, &var.sprite.wall.bpp, &var.sprite.wall.length, &var.sprite.wall.endian); */
 	img_init(&var);
-/* 	img_addr(&var); */
-	var.player.x = 0;
-	var.player.y = 0;
-	/* my_diamonds_put(&var.img, 20); */
-	/* my_triangles_put(&var.img, 40); */
-	/* my_border_put(&var.img, 1, 0x00ffffff); */
-	/* grid(&var.img); */
+	/*img_addr(&var);*/
+	/* my_diamonds_put(&var.img, 20);
+		my_triangles_put(&var.img, 40);
+		my_border_put(&var.img, 1, 0x00ffffff);
+		grid(&var.img); */
 	mlx_hook(var.win, 2, 1L<<0, keypress, &var);
 	mlx_hook(var.win, 17, 0L, destruct, &var);
 	/* mlx_hook(var.win, 4, 1L<<2, mouse, &var); */
-/* 	mlx_hook(var.win, 6, 1L<<6, position, &var);
-	mlx_hook(var.win, 7, 1L<<4, join, &var);
-	mlx_hook(var.win, 8, 1L<<5, bye, &var); */
+	/* mlx_hook(var.win, 6, 1L<<6, position, &var);
+		mlx_hook(var.win, 7, 1L<<4, join, &var);
+		mlx_hook(var.win, 8, 1L<<5, bye, &var); */
 	mlx_loop_hook(var.mlx, render_frame, &var);
 	mlx_loop(var.mlx);
 }

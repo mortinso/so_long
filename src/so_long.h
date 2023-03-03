@@ -1,12 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/03 16:02:20 by mortins-          #+#    #+#             */
+/*   Updated: 2023/03/03 19:14:56 by mortins-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
 # include "../mlx/mlx.h"
 # include "../utils/ft_printf/ft_printf.h"
 # include "../utils/get_next_line/get_next_line.h"
-/* # include "../utils/libft/libft.h" */
-# include <fcntl.h>
+# include "../utils/libft/libft.h"
+# include <unistd.h>
 # include <stdlib.h>
+# include <fcntl.h>
 
 # define SPRITE_SIZE 64
 
@@ -49,15 +62,27 @@ typedef struct s_sprite {
 	void	*exit;
 }	t_sprite;
 
+typedef struct s_map {
+	char	**map;
+	int		map_y;
+	int		c_c;
+	int		e_c;
+	int		p_c;
+}	t_map;
+
 typedef struct s_game {
 	void		*mlx;
 	void		*win;
-	char		**map;
+	t_map		map;
 	t_sprite	sprite;
 	t_player	player;
 }	t_game;
 
-int		put_error(int n, t_game *var);
+void	get_map(t_game *var, char *fd_path);
+void	copy_map(t_game *var, int fd);
+void	check_counters(t_game *var);
+void	check_map(t_game *var, int fd);
+int		put_error(int error, t_game *var);
 void	img_init(t_game *var);
 int		keypress(int key, t_game *var);
 void	move(t_game *var, char direction);

@@ -16,22 +16,25 @@ void	get_map(t_game *var, char *fd_path)
 {
 	int	fd;
 
-	var->map.c_c = 0;
-	var->map.e_c = 0;
-	var->map.p_c = 0;
 	fd = open(fd_path, O_RDONLY);
-	copy_map(var, fd);
+	map_chars(var, fd);
 	close(fd);
 	fd = open(fd_path, O_RDONLY);
-	check_map(var, fd);
+	map_size(var, fd);
 	close(fd);
+	map_walls(var);
+	var->win_width = var->map.x * SPRITE_SIZE;
+	var->win_height = var->map.y * SPRITE_SIZE;
 }
 
-void	copy_map(t_game *var, int fd)
+void	map_chars(t_game *var, int fd)
 {
 	char	buf;
 	int		y;
 
+	var->map.c_count = 0;
+	var->map.e_count = 0;
+	var->map.p_count = 0;
 	if (read(fd, NULL, 0) < 0)
 		put_error(1, var);
 	y = 1;
@@ -40,54 +43,71 @@ void	copy_map(t_game *var, int fd)
 		if (buf == '\n')
 			y++;
 		else if (buf == 'C')
-			var->map.c_c++;
+			var->map.c_count++;
 		else if (buf == 'E')
-			var->map.e_c++;
+			var->map.e_count++;
 		else if (buf == 'P')
-			var->map.p_c++;
-		else if (!(ft_strchr("01CEP", buf)))
+			var->map.p_count++;
+		else if (!(ft_strchr("01CEP\r", buf))) /* REMOVE '\r'WHEN WORKING ON LINUX */
 			put_error(2, var);
 	}
-	var->map.map_y = y;
-	check_counters(var);
+	var->map.y = y;
+	map_counters(var);
 }
 
-void	check_counters(t_game *var)
-{
-	if (var->map.c_c >= 1 && var->map.e_c == 1 && var->map.p_c == 1)
-		return ;
-	if (var->map.c_c < 1)
-		ft_printf("ERROR:\n The map file must have collectibles.");
-	if (var->map.e_c < 1)
-		ft_printf("ERROR:\n The map file must have an exit.");
-	if (var->map.e_c > 1)
-		ft_printf("ERROR:\n The map file must only have ONE exit.");
-	if (var->map.p_c < 1)
-		ft_printf("ERROR:\n The map file must have a starting position");
-	if (var->map.p_c > 1)
-		ft_printf("ERROR:\n The map file must only have ONE starting position");
-	exit(0);
-}
-
-void	check_map(t_game *var, int fd)
+void	map_size(t_game *var, int fd)
 {
 	int	i;
 
-	var->map.map = (char **)malloc(sizeof(char *) * (var->map.map_y + 1));
+	var->map.map = (char **)malloc(sizeof(char *) * (var->map.y + 1));
 	if (!var->map.map)
 		put_error(3, var);
 	i = 0;
-	while (i < var->map.map_y)
-	{
-		var->map.map[i] = get_next_line(fd);
-		i++;
-	}
+	while (i < var->map.y)
+		var->map.map[i++] = get_next_line(fd);
 	var->map.map[i] = NULL;
 	i = 0;
-	while (i < var->map.map_y)
+	while (i < var->map.y)
 	{
 		if (var->map.map[i][ft_strlen(var->map.map[i]) - 1] == '\n')
 			var->map.map[i][ft_strlen(var->map.map[i]) - 1] = '\0';
+		if (var->map.map[i][ft_strlen(var->map.map[i]) - 1] == '\r') /* REMOVE WHEN WORKING ON LINUX */
+			var->map.map[i][ft_strlen(var->map.map[i]) - 1] = '\0'; /* REMOVE WHEN WORKING ON LINUX */
 		i++;
+	}
+	i = 0;
+	while (i < (var->map.y - 1))
+	{
+		if (ft_strlen(var->map.map[i]) != ft_strlen(var->map.map[i + 1]))
+			put_error(4, var);
+		i++;
+	}
+	var->map.x = ft_strlen(var->map.map[0]);
+}
+
+void	map_walls(t_game *var)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (i < var->map.y)
+	{
+		if (i == 0 || (i == var->map.y - 1))
+		{
+			while (j < var->map.x)
+			{
+				if (var->map.map[i][j++] != '1')
+					put_error(5, var);
+			}
+		}
+		if ((var->map.map[i][0] != '1') || (var->map.map[i][var->map.x - 1] \
+			!= '1'))
+		{
+			put_error(5, var);
+		}
+		i++;
+		j = 0;
 	}
 }

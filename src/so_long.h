@@ -47,6 +47,7 @@ typedef struct s_player {
 	int		x;
 	int		y;
 	void	*img;
+	int		moves;
 }	t_player;
 
 typedef struct s_sprite {
@@ -64,26 +65,31 @@ typedef struct s_sprite {
 
 typedef struct s_map {
 	char	**map;
-	int		map_y;
-	int		c_c;
-	int		e_c;
-	int		p_c;
+	int		y;
+	int		x;
+	int		c_count;
+	int		e_count;
+	int		p_count;
 }	t_map;
 
 typedef struct s_game {
 	void		*mlx;
 	void		*win;
+	int			win_width;
+	int			win_height;
 	t_map		map;
 	t_sprite	sprite;
 	t_player	player;
 }	t_game;
 
 void	get_map(t_game *var, char *fd_path);
-void	copy_map(t_game *var, int fd);
-void	check_counters(t_game *var);
-void	check_map(t_game *var, int fd);
+void	map_chars(t_game *var, int fd);
+void	map_counters(t_game *var);
+void	map_size(t_game *var, int fd);
+void	map_walls(t_game *var);
 int		put_error(int error, t_game *var);
 void	img_init(t_game *var);
+void	player_start(t_game *var);
 int		keypress(int key, t_game *var);
 void	move(t_game *var, char direction);
 int		destruct(t_game *var);

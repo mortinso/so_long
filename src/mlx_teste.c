@@ -12,9 +12,6 @@
 
 #include "so_long.h"
 
-#define WIN_WIDTH 1408
-#define WIN_HEIGHT 896
-
 /* #define PATH_CURSOR "sprites/cursor.xpm" */
 
 /* typedef struct	s_img {
@@ -31,6 +28,8 @@
 
 int	destruct(t_game *var)
 {
+	mlx_destroy_image(var->mlx, var->sprite.coin);
+	mlx_destroy_image(var->mlx, var->sprite.wall);
 	mlx_destroy_image(var->mlx, var->sprite.floor);
 	mlx_destroy_image(var->mlx, var->sprite.player_up);
 	mlx_destroy_image(var->mlx, var->sprite.player_left);
@@ -40,31 +39,11 @@ int	destruct(t_game *var)
 	mlx_clear_window(var->mlx, var->win);
 	mlx_destroy_window(var->mlx, var->win);
 	mlx_destroy_display(var->mlx);
-	while (var->map.map_y)
-		free(var->map.map[--var->map.map_y]);
+	while (var->map.y)
+		free(var->map.map[--var->map.y]);
 	free(var->map.map);
 	free(var->mlx);
 	exit (0);
-	return (0);
-}
-
-int put_error(int error, t_game *var)
-{
-	if (error == 0)
-		ft_printf("ERROR:\n Input ONE map file.");
-	if (error == 1)
-		ft_printf("ERROR:\n The map file is empty.");
-	if (error == 2)
-		ft_printf("ERROR:\n The map file contains a forbidden character.");
-	if (error == 3)
-		ft_printf("ERRPR:\n Failed to allocate memory.");
-	if (error == 9)
-		ft_printf("Error\nFailed to initiate mlx.");
-	if (error == 10)
-		ft_printf("Error\nFailed to create a new window.");
-	if (error > 3)
-		destruct(var);
-	exit(0);
 	return (0);
 }
 
@@ -73,9 +52,9 @@ int	render_frame(t_game *var)
 	int	x = 0;
 	int	y = 0;
 
-	while (x < WIN_WIDTH && y < WIN_HEIGHT)
+	while (y < var->win_height)
 	{
-		while (x < WIN_WIDTH)
+		while (x < var->win_width)
 		{
 			mlx_put_image_to_window(var->mlx, var->win, var->sprite.floor, x, y);
 			x += SPRITE_SIZE;
@@ -292,13 +271,29 @@ int	render_frame(t_game *var)
 void	move(t_game *var, char direction)
 {
 	if (direction == 'u' && (var->player.y - SPRITE_SIZE >= 0))
+	{
+		var->player.moves++;
 		var->player.y -= SPRITE_SIZE;
+		ft_printf("Number of moves: %d\n", var->player.moves);
+	}
 	if (direction == 'l' && (var->player.x - SPRITE_SIZE >= 0))
+	{
+		var->player.moves++;
 		var->player.x -= SPRITE_SIZE;
-	if (direction == 'd' && (var->player.y + (SPRITE_SIZE * 2) <= WIN_HEIGHT))
+		ft_printf("Number of moves: %d\n", var->player.moves);
+	}
+	if (direction == 'd' && (var->player.y + (SPRITE_SIZE * 2) <= var->win_height))
+	{
+		var->player.moves++;
 		var->player.y += SPRITE_SIZE;
-	if (direction == 'r' && (var->player.x + (SPRITE_SIZE * 2) <= WIN_WIDTH))\
+		ft_printf("Number of moves: %d\n", var->player.moves);
+	}
+	if (direction == 'r' && (var->player.x + (SPRITE_SIZE * 2) <= var->win_width))
+	{
+		var->player.moves++;
 		var->player.x += SPRITE_SIZE;
+		ft_printf("Number of moves: %d\n", var->player.moves);
+	}
 }
 
 int	keypress(int key, t_game *var)
@@ -328,22 +323,6 @@ int	keypress(int key, t_game *var)
 	return (0);
 }
 
-void	img_init(t_game *var)
-{
-	int	i = SPRITE_SIZE;
-	/* int	j = 36; */
-
-	var->sprite.floor = mlx_xpm_file_to_image(var->mlx, PATH_FLOOR, &i, &i);
-	var->sprite.player_up = mlx_xpm_file_to_image(var->mlx, PATH_PLAYER_U, &i, &i);
-	var->sprite.player_left = mlx_xpm_file_to_image(var->mlx, PATH_PLAYER_L, &i, &i);
-	var->sprite.player_down = mlx_xpm_file_to_image(var->mlx, PATH_PLAYER_D, &i, &i);
-	var->sprite.player_right = mlx_xpm_file_to_image(var->mlx, PATH_PLAYER_R, &i, &i);
-	var->player.img = var->sprite.player_down;
-	var->player.x = 0;
-	var->player.y = 0;
-	/* var->sprite.cursor = mlx_xpm_file_to_image(var->mlx, PATH_CURSOR , &j, &j); */
-}
-
 /* void	img_addr(t_game *var)
 {
 	var->player.img.addr = mlx_get_data_addr(var->player.img.img, &var->player.img.bpp, &var->player.img.length, &var->player.img.endian);
@@ -359,13 +338,10 @@ int	main(int argc, char **argv)
 	get_map(&var, argv[1]);
 	var.mlx = mlx_init();
 	if (var.mlx == NULL)
-		return (put_error(9, &var));
-	var.win = mlx_new_window(var.mlx, WIN_WIDTH, WIN_HEIGHT, "teste");
+		return (put_error(7, &var));
+	var.win = mlx_new_window(var.mlx, var.win_width, var.win_height, "teste");
 	if (var.win == NULL)
-	{
-		free (var.win);
-		return (put_error(10, &var));
-	}
+		put_error(8, &var);
 	/*var.sprite.wall.img = mlx_new_image(var.mlx, SPRITE_SIZE, SPRITE_SIZE);
 		var.sprite.wall.addr = mlx_get_data_addr(var.sprite.wall.img, &var.sprite.wall.bpp, &var.sprite.wall.length, &var.sprite.wall.endian); */
 	img_init(&var);

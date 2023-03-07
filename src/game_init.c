@@ -20,7 +20,6 @@ void	game_init(t_game *var)
 	var->map.img.addr = mlx_get_data_addr(var->map.img.img, \
 		&var->map.img.bpp, &var->map.img.length, &var->map.img.endian);
 	make_map(var);
-
 }
 
 void	img_init(t_game *var)

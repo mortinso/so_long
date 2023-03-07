@@ -32,9 +32,9 @@ void	map_chars(t_game *var, int fd)
 	char	buf;
 	int		y;
 
-	var->map.c_count = 0;
-	var->map.e_count = 0;
-	var->map.p_count = 0;
+	var->map.coin_count = 0;
+	var->map.exit_count = 0;
+	var->map.player_count = 0;
 	if (read(fd, NULL, 0) < 0)
 		put_error(1, var);
 	y = 1;
@@ -43,12 +43,12 @@ void	map_chars(t_game *var, int fd)
 		if (buf == '\n')
 			y++;
 		else if (buf == 'C')
-			var->map.c_count++;
+			var->map.coin_count++;
 		else if (buf == 'E')
-			var->map.e_count++;
+			var->map.exit_count++;
 		else if (buf == 'P')
-			var->map.p_count++;
-		else if (!(ft_strchr("01CEP", buf)))
+			var->map.player_count++;
+		else if (!(ft_strchr("01CEP\r", buf))) /* remove \r */
 			put_error(2, var);
 	}
 	var->map.y = y;
@@ -71,6 +71,8 @@ void	map_size(t_game *var, int fd)
 	{
 		if (var->map.map[i][ft_strlen(var->map.map[i]) - 1] == '\n')
 			var->map.map[i][ft_strlen(var->map.map[i]) - 1] = '\0';
+		if (var->map.map[i][ft_strlen(var->map.map[i]) - 1] == '\r') /* remove */
+			var->map.map[i][ft_strlen(var->map.map[i]) - 1] = '\0'; /* remove */
 		i++;
 	}
 	i = 0;

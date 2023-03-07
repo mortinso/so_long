@@ -14,65 +14,16 @@
 
 void	my_pixel_put(t_img *data, int x, int y, int color)
 {
-	char *dst;
+	char	*dst;
 
 	dst = data->addr + (y * data->length + x * (data->bpp / 8));
-	*(unsigned int*)dst = color;
-}
-
-int	destruct(t_game *var)
-{
-	mlx_destroy_image(var->mlx, var->sprite.coin);
-	mlx_destroy_image(var->mlx, var->sprite.unlock);
-	mlx_destroy_image(var->mlx, var->sprite.locked);
-	mlx_destroy_image(var->mlx, var->sprite.wall.img);
-	mlx_destroy_image(var->mlx, var->sprite.floor.img);
-	mlx_destroy_image(var->mlx, var->sprite.player_up);
-	mlx_destroy_image(var->mlx, var->sprite.player_left);
-	mlx_destroy_image(var->mlx, var->sprite.player_down);
-	mlx_destroy_image(var->mlx, var->sprite.player_right);
-	mlx_clear_window(var->mlx, var->win);
-	mlx_destroy_window(var->mlx, var->win);
-	mlx_destroy_display(var->mlx);
-	while (var->map.y)
-		free(var->map.map[--var->map.y]);
-	free(var->map.map);
-	free(var->mlx);
-	exit (0);
-	return (0);
+	*(unsigned int *)dst = color;
 }
 
 int	render_frame(t_game *var)
 {
 	mlx_put_image_to_window(var->mlx, var->win, var->player.img, var->player.x, \
 		var->player.y);
-	return (0);
-}
-
-int	keypress(int key, t_game *var)
-{
-	if (key == KEY_ESC)
-		destruct(var);
-	if (key == KEY_W || key == KEY_UP)
-	{
-		var->player.img = var->sprite.player_up;
-		move(var, 'u');
-	}
-	if (key == KEY_A || key == KEY_LEFT)
-	{
-		var->player.img = var->sprite.player_left;
-		move(var, 'l');
-	}
-	if (key == KEY_S || key == KEY_DOWN)
-	{
-		var->player.img = var->sprite.player_down;
-		move(var, 'd');
-	}
-	if (key == KEY_D || key == KEY_RIGHT)
-	{
-		var->player.img = var->sprite.player_right;
-		move(var, 'r');
-	}
 	return (0);
 }
 
@@ -90,7 +41,7 @@ int	main(int argc, char **argv)
 		"Pokemon Rip-Off");
 	if (var.win == NULL)
 		put_error(8, &var);
-	img_init(&var);
+	game_init(&var);
 	mlx_hook(var.win, 2, 1L << 0, keypress, &var);
 	mlx_hook(var.win, 17, 0L, destruct, &var);
 	mlx_loop_hook(var.mlx, render_frame, &var);

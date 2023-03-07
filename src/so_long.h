@@ -79,9 +79,9 @@ typedef struct s_map {
 	t_img	copy;
 	int		y;
 	int		x;
-	int		c_count;
-	int		e_count;
-	int		p_count;
+	int		coin_count;
+	int		exit_count;
+	int		player_count;
 }	t_map;
 
 typedef struct s_game {
@@ -89,7 +89,6 @@ typedef struct s_game {
 	void		*win;
 	int			win_width;
 	int			win_height;
-	int			coin_counter;
 	t_map		map;
 	t_sprite	sprite;
 	t_player	player;
@@ -107,7 +106,7 @@ void	make_map(t_game *var);
 void	put_tile(t_game *var, t_img *tile, int map_x, int map_y);
 void	my_pixel_put(t_img *data, int x, int y, int color);
 int		keypress(int key, t_game *var);
-void	move(t_game *var, char direction);
+void	move(t_game *var, int x, int y);
 int		destruct(t_game *var);
 int		render_frame(t_game *var);
 

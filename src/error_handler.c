@@ -41,17 +41,20 @@ int	put_error(int error, t_game *var)
 
 void	map_counters(t_game *var)
 {
-	if (var->map.c_count >= 1 && var->map.e_count == 1 && var->map.p_count == 1)
+	if (var->map.coin_count >= 1 && var->map.exit_count == 1 && \
+		var->map.player_count == 1)
+	{
 		return ;
-	if (var->map.c_count < 1)
+	}
+	if (var->map.coin_count < 1)
 		ft_printf("ERROR:\n The map file must have collectibles.");
-	if (var->map.e_count < 1)
+	if (var->map.exit_count < 1)
 		ft_printf("ERROR:\n The map file must have an exit.");
-	if (var->map.e_count > 1)
+	if (var->map.exit_count > 1)
 		ft_printf("ERROR:\n The map file must only have ONE exit.");
-	if (var->map.p_count < 1)
+	if (var->map.player_count < 1)
 		ft_printf("ERROR:\n The map file must have a starting position");
-	if (var->map.p_count > 1)
+	if (var->map.player_count > 1)
 		ft_printf("ERROR:\n The map file must only have ONE starting position");
 	exit(0);
 }

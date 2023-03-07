@@ -22,7 +22,7 @@
 	int		endian;
 }	t_img; */
 
-int	destruct(t_game *var)
+/* int	destruct(t_game *var)
 {
 	mlx_destroy_image(var->mlx, var->sprite.coin);
 	mlx_destroy_image(var->mlx, var->sprite.unlock);
@@ -33,7 +33,7 @@ int	destruct(t_game *var)
 	mlx_destroy_image(var->mlx, var->sprite.player_left);
 	mlx_destroy_image(var->mlx, var->sprite.player_down);
 	mlx_destroy_image(var->mlx, var->sprite.player_right);
-/* 	mlx_destroy_image(var->mlx, var->sprite.cursor); */
+	mlx_destroy_image(var->mlx, var->sprite.cursor);
 	mlx_clear_window(var->mlx, var->win);
 	mlx_destroy_window(var->mlx, var->win);
 	mlx_destroy_display(var->mlx);
@@ -43,7 +43,7 @@ int	destruct(t_game *var)
 	free(var->mlx);
 	exit (0);
 	return (0);
-}
+} */
 
 int	render_frame(t_game *var)
 {
@@ -270,61 +270,6 @@ void	my_pixel_put(t_img *data, int x, int y, int color)
 		y++;
 	}
 } */
-
-void	move(t_game *var, char direction)
-{
-	if (direction == 'u' && (var->player.y - IMG_SIZE >= 0))
-	{
-		var->player.moves++;
-		var->player.y -= IMG_SIZE;
-		ft_printf("Number of moves: %d\n", var->player.moves);
-	}
-	if (direction == 'l' && (var->player.x - IMG_SIZE >= 0))
-	{
-		var->player.moves++;
-		var->player.x -= IMG_SIZE;
-		ft_printf("Number of moves: %d\n", var->player.moves);
-	}
-	if (direction == 'd' && (var->player.y + (IMG_SIZE * 2) <= var->win_height))
-	{
-		var->player.moves++;
-		var->player.y += IMG_SIZE;
-		ft_printf("Number of moves: %d\n", var->player.moves);
-	}
-	if (direction == 'r' && (var->player.x + (IMG_SIZE * 2) <= var->win_width))
-	{
-		var->player.moves++;
-		var->player.x += IMG_SIZE;
-		ft_printf("Number of moves: %d\n", var->player.moves);
-	}
-}
-
-int	keypress(int key, t_game *var)
-{
-	if (key == KEY_ESC)
-		destruct(var);
-	if (key == KEY_W || key == KEY_UP)
-	{
-		var->player.img = var->sprite.player_up;
-		move(var, 'u');
-	}
-	if (key == KEY_A || key == KEY_LEFT)
-	{
-		var->player.img = var->sprite.player_left;
-		move(var, 'l');
-	}
-	if (key == KEY_S || key == KEY_DOWN)
-	{
-		var->player.img = var->sprite.player_down;
-		move(var, 'd');
-	}
-	if (key == KEY_D || key == KEY_RIGHT)
-	{
-		var->player.img = var->sprite.player_right;
-		move(var, 'r');
-	}
-	return (0);
-}
 
 /* void	img_addr(t_game *var)
 {

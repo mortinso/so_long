@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 16:02:14 by mortins-          #+#    #+#             */
-/*   Updated: 2023/03/03 19:14:47 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/03/07 18:47:22 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	get_map(t_game *var, char *fd_path)
 	map_size(var, fd);
 	close(fd);
 	map_walls(var);
-	var->win_width = var->map.x * SPRITE_SIZE;
-	var->win_height = var->map.y * SPRITE_SIZE;
+	var->win_width = var->map.x * IMG_SIZE;
+	var->win_height = var->map.y * IMG_SIZE;
 }
 
 void	map_chars(t_game *var, int fd)
@@ -48,7 +48,7 @@ void	map_chars(t_game *var, int fd)
 			var->map.e_count++;
 		else if (buf == 'P')
 			var->map.p_count++;
-		else if (!(ft_strchr("01CEP\r", buf))) /* REMOVE '\r'WHEN WORKING ON LINUX */
+		else if (!(ft_strchr("01CEP", buf)))
 			put_error(2, var);
 	}
 	var->map.y = y;
@@ -71,8 +71,6 @@ void	map_size(t_game *var, int fd)
 	{
 		if (var->map.map[i][ft_strlen(var->map.map[i]) - 1] == '\n')
 			var->map.map[i][ft_strlen(var->map.map[i]) - 1] = '\0';
-		if (var->map.map[i][ft_strlen(var->map.map[i]) - 1] == '\r') /* REMOVE WHEN WORKING ON LINUX */
-			var->map.map[i][ft_strlen(var->map.map[i]) - 1] = '\0'; /* REMOVE WHEN WORKING ON LINUX */
 		i++;
 	}
 	i = 0;

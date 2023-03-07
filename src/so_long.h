@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 16:02:20 by mortins-          #+#    #+#             */
-/*   Updated: 2023/03/03 19:14:56 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/03/07 18:52:46 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,19 @@
 # include <stdlib.h>
 # include <fcntl.h>
 
-# define SPRITE_SIZE 64
+# define IMG_SIZE 64
 
 # define KEY_ESC 65307
-
 # define KEY_W 119
 # define KEY_A 97
 # define KEY_S 115
 # define KEY_D 100
-
 # define KEY_UP 65362
 # define KEY_LEFT 65361
 # define KEY_DOWN 65364
 # define KEY_RIGHT 65363
+
+# define GREEN_SCREEN 0x00dc00ff
 
 # define PATH_PLAYER_U "sprites/player_u.xpm"
 # define PATH_PLAYER_L "sprites/player_l.xpm"
@@ -42,6 +42,8 @@
 # define PATH_COIN "sprites/coin.xpm"
 # define PATH_WALL "sprites/wall.xpm"
 # define PATH_FLOOR "sprites/floor.xpm"
+# define PATH_UNLOCK "sprites/unlocked.xpm"
+# define PATH_LOCKED "sprites/locked.xpm"
 
 typedef struct s_player {
 	int		x;
@@ -50,21 +52,31 @@ typedef struct s_player {
 	int		moves;
 }	t_player;
 
+typedef struct s_img {
+	void	*img;
+	char	*addr;
+	int		bpp;
+	int		length;
+	int		endian;
+}	t_img;
+
 typedef struct s_sprite {
 	void	*player_up;
 	void	*player_left;
 	void	*player_down;
 	void	*player_right;
 	void	*coin;
-	void	*wall;
-	void	*floor;
+	t_img	wall;
+	t_img	floor;
 	void	*locked;
-	void	*unlocked;
+	void	*unlock;
 	void	*exit;
 }	t_sprite;
 
 typedef struct s_map {
 	char	**map;
+	t_img	img;
+	t_img	copy;
 	int		y;
 	int		x;
 	int		c_count;
@@ -77,6 +89,7 @@ typedef struct s_game {
 	void		*win;
 	int			win_width;
 	int			win_height;
+	int			coin_counter;
 	t_map		map;
 	t_sprite	sprite;
 	t_player	player;
@@ -88,8 +101,11 @@ void	map_counters(t_game *var);
 void	map_size(t_game *var, int fd);
 void	map_walls(t_game *var);
 int		put_error(int error, t_game *var);
+void	game_init(t_game *var);
 void	img_init(t_game *var);
-void	player_start(t_game *var);
+void	make_map(t_game *var);
+void	put_tile(t_game *var, t_img *tile, int map_x, int map_y);
+void	my_pixel_put(t_img *data, int x, int y, int color);
 int		keypress(int key, t_game *var);
 void	move(t_game *var, char direction);
 int		destruct(t_game *var);

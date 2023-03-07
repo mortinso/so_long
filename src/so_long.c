@@ -6,17 +6,27 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 14:04:57 by mortins-          #+#    #+#             */
-/*   Updated: 2023/03/03 19:17:20 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/03/07 18:23:46 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
+void	my_pixel_put(t_img *data, int x, int y, int color)
+{
+	char *dst;
+
+	dst = data->addr + (y * data->length + x * (data->bpp / 8));
+	*(unsigned int*)dst = color;
+}
+
 int	destruct(t_game *var)
 {
 	mlx_destroy_image(var->mlx, var->sprite.coin);
-	mlx_destroy_image(var->mlx, var->sprite.wall);
-	mlx_destroy_image(var->mlx, var->sprite.floor);
+	mlx_destroy_image(var->mlx, var->sprite.unlock);
+	mlx_destroy_image(var->mlx, var->sprite.locked);
+	mlx_destroy_image(var->mlx, var->sprite.wall.img);
+	mlx_destroy_image(var->mlx, var->sprite.floor.img);
 	mlx_destroy_image(var->mlx, var->sprite.player_up);
 	mlx_destroy_image(var->mlx, var->sprite.player_left);
 	mlx_destroy_image(var->mlx, var->sprite.player_down);
@@ -76,7 +86,8 @@ int	main(int argc, char **argv)
 	var.mlx = mlx_init();
 	if (var.mlx == NULL)
 		return (put_error(7, &var));
-	var.win = mlx_new_window(var.mlx, var.win_width, var.win_height, "Pokemon Rip-Off");
+	var.win = mlx_new_window(var.mlx, var.win_width, var.win_height, \
+		"Pokemon Rip-Off");
 	if (var.win == NULL)
 		put_error(8, &var);
 	img_init(&var);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error_handler.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/07 14:57:23 by mortins-          #+#    #+#             */
+/*   Updated: 2023/03/07 14:57:34 by mortins-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 int	put_error(int error, t_game *var)
@@ -15,7 +27,7 @@ int	put_error(int error, t_game *var)
 	if (error == 5)
 		ft_printf("ERROR:\n The map must be surrounded by walls.");
 	if (error == 6)
-		ft_printf("ERROR:\n The map must have a valid path."); /* need to check path */
+		ft_printf("ERROR:\n The map must have a valid path.");
 	if (error == 7)
 		ft_printf("ERROR\n Failed to initiate mlx.");
 	if (error == 8)

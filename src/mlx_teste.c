@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 14:44:02 by mortins-          #+#    #+#             */
-/*   Updated: 2023/03/03 19:15:35 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/03/07 18:52:21 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,13 @@
 	int		endian;
 }	t_img; */
 
-/*	Calculate Memory Offset to allign bytes
-	int offset = (y * length + x * (bpp / 8));
-*/
-
 int	destruct(t_game *var)
 {
 	mlx_destroy_image(var->mlx, var->sprite.coin);
-	mlx_destroy_image(var->mlx, var->sprite.wall);
-	mlx_destroy_image(var->mlx, var->sprite.floor);
+	mlx_destroy_image(var->mlx, var->sprite.unlock);
+	mlx_destroy_image(var->mlx, var->sprite.locked);
+	mlx_destroy_image(var->mlx, var->sprite.wall.img);
+	mlx_destroy_image(var->mlx, var->sprite.floor.img);
 	mlx_destroy_image(var->mlx, var->sprite.player_up);
 	mlx_destroy_image(var->mlx, var->sprite.player_left);
 	mlx_destroy_image(var->mlx, var->sprite.player_down);
@@ -49,32 +47,37 @@ int	destruct(t_game *var)
 
 int	render_frame(t_game *var)
 {
-	int	x = 0;
-	int	y = 0;
+/* 	int	x = 0;
+	int	y = 0; */
 
-	while (y < var->win_height)
+	/* while (y < var->win_height)
 	{
 		while (x < var->win_width)
 		{
-			mlx_put_image_to_window(var->mlx, var->win, var->sprite.floor, x, y);
-			x += SPRITE_SIZE;
+			mlx_put_image_to_window(var->mlx, var->win, var->sprite.floor.img, x, y);
+			x += IMG_SIZE;
 		}
 		x = 0;
-		y += SPRITE_SIZE;
-	}
+		y += IMG_SIZE;
+	} */
 	/* if (var->cursor.cursor == 1)
 		mlx_put_image_to_window(var->mlx, var->win, var->sprite.cursor, var->cursor.x, var->cursor.y); */
+	mlx_put_image_to_window(var->mlx, var->win, var->map.img.img, 0, 0);
 	mlx_put_image_to_window(var->mlx, var->win, var->player.img, var->player.x, var->player.y);
 	return (0);
 }
 
-/* void	my_pixel_put(t_data *data, int x, int y, int color)
+/*	Calculate Memory Offset to allign bytes
+	int offset = (y * length + x * (bpp / 8));
+*/
+
+void	my_pixel_put(t_img *data, int x, int y, int color)
 {
 	char *dst;
 
 	dst = data->addr + (y * data->length + x * (data->bpp / 8));
 	*(unsigned int*)dst = color;
-} */
+}
 
 /* int	grid(t_img *img)
 {
@@ -233,7 +236,7 @@ int	render_frame(t_game *var)
 {
 	if (button == 1)
 	{
-		if ((x >= var->player.x && x <= (var->player.x + SPRITE_SIZE)) && (y >= var->player.y && y <= (var->player.y + SPRITE_SIZE)))
+		if ((x >= var->player.x && x <= (var->player.x + IMG_SIZE)) && (y >= var->player.y && y <= (var->player.y + IMG_SIZE)))
 			ft_printf("Ouch!\n");
 			destruct(var);
 	}
@@ -270,28 +273,28 @@ int	render_frame(t_game *var)
 
 void	move(t_game *var, char direction)
 {
-	if (direction == 'u' && (var->player.y - SPRITE_SIZE >= 0))
+	if (direction == 'u' && (var->player.y - IMG_SIZE >= 0))
 	{
 		var->player.moves++;
-		var->player.y -= SPRITE_SIZE;
+		var->player.y -= IMG_SIZE;
 		ft_printf("Number of moves: %d\n", var->player.moves);
 	}
-	if (direction == 'l' && (var->player.x - SPRITE_SIZE >= 0))
+	if (direction == 'l' && (var->player.x - IMG_SIZE >= 0))
 	{
 		var->player.moves++;
-		var->player.x -= SPRITE_SIZE;
+		var->player.x -= IMG_SIZE;
 		ft_printf("Number of moves: %d\n", var->player.moves);
 	}
-	if (direction == 'd' && (var->player.y + (SPRITE_SIZE * 2) <= var->win_height))
+	if (direction == 'd' && (var->player.y + (IMG_SIZE * 2) <= var->win_height))
 	{
 		var->player.moves++;
-		var->player.y += SPRITE_SIZE;
+		var->player.y += IMG_SIZE;
 		ft_printf("Number of moves: %d\n", var->player.moves);
 	}
-	if (direction == 'r' && (var->player.x + (SPRITE_SIZE * 2) <= var->win_width))
+	if (direction == 'r' && (var->player.x + (IMG_SIZE * 2) <= var->win_width))
 	{
 		var->player.moves++;
-		var->player.x += SPRITE_SIZE;
+		var->player.x += IMG_SIZE;
 		ft_printf("Number of moves: %d\n", var->player.moves);
 	}
 }
@@ -326,7 +329,7 @@ int	keypress(int key, t_game *var)
 /* void	img_addr(t_game *var)
 {
 	var->player.img.addr = mlx_get_data_addr(var->player.img.img, &var->player.img.bpp, &var->player.img.length, &var->player.img.endian);
-	img_fix(var, &var->player.img, SPRITE_SIZE, 0x0000FF1F);
+	img_fix(var, &var->player.img, IMG_SIZE, 0x0000FF1F);
 } */
 
 int	main(int argc, char **argv)
@@ -342,9 +345,9 @@ int	main(int argc, char **argv)
 	var.win = mlx_new_window(var.mlx, var.win_width, var.win_height, "teste");
 	if (var.win == NULL)
 		put_error(8, &var);
-	/*var.sprite.wall.img = mlx_new_image(var.mlx, SPRITE_SIZE, SPRITE_SIZE);
+	/*var.sprite.wall.img = mlx_new_image(var.mlx, IMG_SIZE, IMG_SIZE);
 		var.sprite.wall.addr = mlx_get_data_addr(var.sprite.wall.img, &var.sprite.wall.bpp, &var.sprite.wall.length, &var.sprite.wall.endian); */
-	img_init(&var);
+	game_init(&var);
 	/*img_addr(&var);*/
 	/* my_diamonds_put(&var.img, 20);
 		my_triangles_put(&var.img, 40);

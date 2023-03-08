@@ -19,6 +19,7 @@ int	render_frame(t_game *var)
 	/* mlx_ */
 	return (0);
 }
+
 void	put_tile(t_game *var, t_img *tile, int map_x, int map_y)
 {
 	char	*color;

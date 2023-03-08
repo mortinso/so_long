@@ -6,26 +6,11 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 14:04:57 by mortins-          #+#    #+#             */
-/*   Updated: 2023/03/07 18:23:46 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/03/08 18:09:30 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-void	my_pixel_put(t_img *data, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = data->addr + (y * data->length + x * (data->bpp / 8));
-	*(unsigned int *)dst = color;
-}
-
-int	render_frame(t_game *var)
-{
-	mlx_put_image_to_window(var->mlx, var->win, var->player.img, var->player.x, \
-		var->player.y);
-	return (0);
-}
 
 int	main(int argc, char **argv)
 {

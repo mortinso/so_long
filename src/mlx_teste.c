@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 14:44:02 by mortins-          #+#    #+#             */
-/*   Updated: 2023/03/07 18:52:21 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/03/08 17:13:21 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	render_frame(t_game *var)
 	/* if (var->cursor.cursor == 1)
 		mlx_put_image_to_window(var->mlx, var->win, var->sprite.cursor, var->cursor.x, var->cursor.y); */
 	mlx_put_image_to_window(var->mlx, var->win, var->map.img.img, 0, 0);
-	mlx_put_image_to_window(var->mlx, var->win, var->player.img, var->player.x, var->player.y);
+	/* mlx_put_image_to_window(var->mlx, var->win, var->player.img, var->player.x, var->player.y); */
 	return (0);
 }
 
@@ -71,13 +71,13 @@ int	render_frame(t_game *var)
 	int offset = (y * length + x * (bpp / 8));
 */
 
-void	my_pixel_put(t_img *data, int x, int y, int color)
+/* void	my_pixel_put(t_img *data, int x, int y, int color)
 {
 	char *dst;
 
 	dst = data->addr + (y * data->length + x * (data->bpp / 8));
 	*(unsigned int*)dst = color;
-}
+} */
 
 /* int	grid(t_img *img)
 {

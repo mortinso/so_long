@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 16:02:20 by mortins-          #+#    #+#             */
-/*   Updated: 2023/03/07 18:52:46 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/03/08 17:51:28 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,7 @@
 # define PATH_WALL "sprites/wall.xpm"
 # define PATH_FLOOR "sprites/floor.xpm"
 # define PATH_UNLOCK "sprites/unlocked.xpm"
-# define PATH_LOCKED "sprites/locked.xpm"
-
-typedef struct s_player {
-	int		x;
-	int		y;
-	void	*img;
-	int		moves;
-}	t_player;
+# define PATH_LOCK "sprites/locked.xpm"
 
 typedef struct s_img {
 	void	*img;
@@ -60,28 +53,35 @@ typedef struct s_img {
 	int		endian;
 }	t_img;
 
+typedef struct s_player {
+	t_img	img;
+	int		x;
+	int		y;
+	int		moves;
+}	t_player;
+
 typedef struct s_sprite {
-	void	*player_up;
-	void	*player_left;
-	void	*player_down;
-	void	*player_right;
-	void	*coin;
+	t_img	player_up;
+	t_img	player_left;
+	t_img	player_down;
+	t_img	player_right;
+	t_img	coin;
 	t_img	wall;
 	t_img	floor;
-	void	*locked;
-	void	*unlock;
-	void	*exit;
+	t_img	lock;
+	t_img	unlock;
 }	t_sprite;
 
 typedef struct s_map {
 	char	**map;
 	t_img	img;
-	t_img	copy;
 	int		y;
 	int		x;
 	int		coin_count;
 	int		exit_count;
 	int		player_count;
+	int		exit_x;
+	int		exit_y;
 }	t_map;
 
 typedef struct s_game {
@@ -89,6 +89,7 @@ typedef struct s_game {
 	void		*win;
 	int			win_width;
 	int			win_height;
+	int			run;
 	t_map		map;
 	t_sprite	sprite;
 	t_player	player;
@@ -102,12 +103,17 @@ void	map_walls(t_game *var);
 int		put_error(int error, t_game *var);
 void	game_init(t_game *var);
 void	img_init(t_game *var);
+void	img_addr(t_game *var);
+void	img_addr_2(t_game *var);
 void	make_map(t_game *var);
+void	make_extras(t_game *var, int x, int y);
 void	put_tile(t_game *var, t_img *tile, int map_x, int map_y);
 void	my_pixel_put(t_img *data, int x, int y, int color);
 int		keypress(int key, t_game *var);
 void	move(t_game *var, int x, int y);
+void	coins(t_game *var);
 int		destruct(t_game *var);
 int		render_frame(t_game *var);
+void	end_game(t_game *var);
 
 #endif

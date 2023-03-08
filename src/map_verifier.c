@@ -6,26 +6,11 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 16:02:14 by mortins-          #+#    #+#             */
-/*   Updated: 2023/03/07 18:47:22 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/03/08 15:57:14 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-void	get_map(t_game *var, char *fd_path)
-{
-	int	fd;
-
-	fd = open(fd_path, O_RDONLY);
-	map_chars(var, fd);
-	close(fd);
-	fd = open(fd_path, O_RDONLY);
-	map_size(var, fd);
-	close(fd);
-	map_walls(var);
-	var->win_width = var->map.x * IMG_SIZE;
-	var->win_height = var->map.y * IMG_SIZE;
-}
 
 void	map_chars(t_game *var, int fd)
 {
@@ -48,7 +33,7 @@ void	map_chars(t_game *var, int fd)
 			var->map.exit_count++;
 		else if (buf == 'P')
 			var->map.player_count++;
-		else if (!(ft_strchr("01CEP\r", buf))) /* remove \r */
+		else if (!(ft_strchr("01CEP", buf)))
 			put_error(2, var);
 	}
 	var->map.y = y;
@@ -71,8 +56,6 @@ void	map_size(t_game *var, int fd)
 	{
 		if (var->map.map[i][ft_strlen(var->map.map[i]) - 1] == '\n')
 			var->map.map[i][ft_strlen(var->map.map[i]) - 1] = '\0';
-		if (var->map.map[i][ft_strlen(var->map.map[i]) - 1] == '\r') /* remove */
-			var->map.map[i][ft_strlen(var->map.map[i]) - 1] = '\0'; /* remove */
 		i++;
 	}
 	i = 0;

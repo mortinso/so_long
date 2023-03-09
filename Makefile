@@ -9,6 +9,7 @@ LIB			=	-L mlx -lmlx -lXext -lX11
 
 SOL_SRCS	=	src/so_long.c src/map_verifier.c src/error_handler.c src/game_init.c src/events.c src/function_hubs.c src/drawing.c \
 				src/game_finish.c
+
 PTF_SRCS	=	utils/ft_printf/ft_printf.c utils/ft_printf/ft_printf_utils.c
 GNL_SRCS	=	utils/get_next_line/get_next_line.c utils/get_next_line/get_next_line_utils.c
 LFT_SRCS	=	utils/libft/ft_strchr.c

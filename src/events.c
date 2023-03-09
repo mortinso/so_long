@@ -91,6 +91,7 @@ void	move(t_game *var, int x, int y)
 
 void	coins(t_game *var)
 {
+	put_tile(var, &var->sprite.floor, var->player.x, var->player.y);
 	var->map.coin_count--;
 	var->map.map[var->player.y / IMG_SIZE][var->player.x / IMG_SIZE] = '0';
 	if (var->map.coin_count == 0)

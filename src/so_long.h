@@ -21,7 +21,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 
-# define IMG_SIZE 64
+# define IMG_SIZE 48
 
 # define KEY_ESC 65307
 # define KEY_W 119
@@ -35,15 +35,15 @@
 
 # define GREEN_SCREEN 0x00dc00ff
 
-# define PATH_PLAYER_U "sprites/player_u.xpm"
-# define PATH_PLAYER_L "sprites/player_l.xpm"
-# define PATH_PLAYER_D "sprites/player_d.xpm"
-# define PATH_PLAYER_R "sprites/player_r.xpm"
-# define PATH_COIN "sprites/coin.xpm"
-# define PATH_WALL "sprites/wall.xpm"
-# define PATH_FLOOR "sprites/floor.xpm"
-# define PATH_UNLOCK "sprites/unlocked.xpm"
-# define PATH_LOCK "sprites/locked.xpm"
+# define PATH_PLAYER_U "sprites/48/player_u.xpm"
+# define PATH_PLAYER_L "sprites/48/player_l.xpm"
+# define PATH_PLAYER_D "sprites/48/player_d.xpm"
+# define PATH_PLAYER_R "sprites/48/player_r.xpm"
+# define PATH_COIN "sprites/48/coin.xpm"
+# define PATH_WALL "sprites/48/wall.xpm"
+# define PATH_FLOOR "sprites/48/floor.xpm"
+# define PATH_UNLOCK "sprites/48/unlocked.xpm"
+# define PATH_LOCK "sprites/48/locked.xpm"
 
 typedef struct s_img {
 	void	*img;

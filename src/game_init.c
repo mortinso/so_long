@@ -66,9 +66,9 @@ void	img_addr_2(t_game *var)
 	var->sprite.player_left.addr = mlx_get_data_addr(\
 		var->sprite.player_left.img, &var->sprite.player_left.bpp, \
 		&var->sprite.player_left.length, &var->sprite.player_left.endian);
-	var->sprite.player_down.addr = mlx_get_data_addr(var->sprite.player_down.img, \
-		&var->sprite.player_down.bpp, &var->sprite.player_down.length, \
-		&var->sprite.player_down.endian);
+	var->sprite.player_down.addr = mlx_get_data_addr(\
+		var->sprite.player_down.img, &var->sprite.player_down.bpp, \
+		&var->sprite.player_down.length, &var->sprite.player_down.endian);
 	var->sprite.player_right.addr = mlx_get_data_addr(\
 		var->sprite.player_right.img, &var->sprite.player_right.bpp, \
 		&var->sprite.player_right.length, &var->sprite.player_right.endian);

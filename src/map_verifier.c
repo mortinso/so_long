@@ -33,7 +33,7 @@ void	map_chars(t_game *var, int fd)
 			var->map.exit_count++;
 		else if (buf == 'P')
 			var->map.player_count++;
-		else if (!(ft_strchr("01CEP", buf)))
+		else if (!(ft_strchr("01CEP\r", buf)))
 			put_error(2, var);
 	}
 	var->map.y = y;
@@ -55,6 +55,8 @@ void	map_size(t_game *var, int fd)
 	while (i < var->map.y)
 	{
 		if (var->map.map[i][ft_strlen(var->map.map[i]) - 1] == '\n')
+			var->map.map[i][ft_strlen(var->map.map[i]) - 1] = '\0';
+		if (var->map.map[i][ft_strlen(var->map.map[i]) - 1] == '\r')
 			var->map.map[i][ft_strlen(var->map.map[i]) - 1] = '\0';
 		i++;
 	}

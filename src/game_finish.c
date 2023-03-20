@@ -15,4 +15,9 @@
 void	end_game(t_game *var)
 {
 	var->run = 0;
+	mlx_clear_window(var->mlx, var->win);
+	mlx_destroy_window(var->mlx, var->win);
+	mlx_destroy_display(var->mlx);
+	free(var->mlx);
+	destruct(var);
 }

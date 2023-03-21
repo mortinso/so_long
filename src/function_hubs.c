@@ -35,3 +35,18 @@ void	game_init(t_game *var)
 	make_map(var);
 	var->run = 1;
 }
+
+void	end_game(t_game *var)
+{
+	var->run = 0;
+	var->victor_win = mlx_new_window(var->mlx, 1280, 720, \
+		"CONGRATS!!!");
+	if (var->victor_win == NULL)
+		put_error(8, var);
+	var->end.n = 0;
+	end_img_init(var);
+	mlx_put_image_to_window(var->mlx, var->victor_win, var->end.screen.img, \
+		0, 0);
+	mlx_hook(var->victor_win, 2, 1L << 0, keypress, var);
+	mlx_hook(var->victor_win, 17, 0L, destruct, var);
+}

@@ -50,8 +50,11 @@ int	destruct(t_game *var)
 	mlx_destroy_image(var->mlx, var->sprite.player_left.img);
 	mlx_destroy_image(var->mlx, var->sprite.player_down.img);
 	mlx_destroy_image(var->mlx, var->sprite.player_right.img);
+	mlx_destroy_image(var->mlx, var->map.img.img);
 	mlx_clear_window(var->mlx, var->win);
 	mlx_destroy_window(var->mlx, var->win);
+	if (var->run == 0)
+		end_destruct(var);
 	mlx_destroy_display(var->mlx);
 	while (var->map.y)
 		free(var->map.map[--var->map.y]);

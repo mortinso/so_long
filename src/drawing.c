@@ -14,13 +14,13 @@
 /* "-schumacher-clean-bold-r-normal--16-160-*-*-*-*-*-*" */
 int	render_frame(t_game *var)
 {
-	if (var->run == 1)
-		mlx_put_image_to_window(var->mlx, var->win, var->map.img.img, 0, 0);
-	/* mlx_ */
+	mlx_put_image_to_window(var->mlx, var->win, var->map.img.img, 0, 0);
+	if (var->run == 0)
+		end_animation(var);
 	return (0);
 }
 
-void	put_tile(t_game *var, t_img *tile, int map_x, int map_y)
+void	put_tile(t_game *var, t_img *tile, int screen_x, int screen_y)
 {
 	char	*color;
 	int		tile_x;
@@ -36,7 +36,7 @@ void	put_tile(t_game *var, t_img *tile, int map_x, int map_y)
 				(tile->bpp / 8));
 			if (*(unsigned int *)color != GREEN_SCREEN)
 			{
-				my_pixel_put(&var->map.img, map_x + tile_x, map_y \
+				my_pixel_put(&var->map.img, screen_x + tile_x, screen_y \
 					+ tile_y, *(unsigned int *)color);
 			}
 			tile_x++;
@@ -50,5 +50,5 @@ void	my_pixel_put(t_img *data, int x, int y, int color)
 	char	*dst;
 
 	dst = data->addr + (y * data->length + x * (data->bpp / 8));
-	*(unsigned int*)dst = color;
+	*(unsigned int *)dst = color;
 }

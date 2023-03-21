@@ -33,7 +33,7 @@ void	img_init(t_game *var)
 	var->sprite.floor.img = mlx_xpm_file_to_image(var->mlx, PATH_FLOOR, &i, &i);
 	var->map.img.img = mlx_new_image(var->mlx, var->win_width, var->win_height);
 	var->player.img.img = mlx_new_image(var->mlx, IMG_SIZE, IMG_SIZE);
-
+	mlx_destroy_image(var->mlx, var->player.img.img);
 }
 
 void	img_addr(t_game *var)
@@ -72,11 +72,6 @@ void	img_addr_2(t_game *var)
 	var->sprite.player_right.addr = mlx_get_data_addr(\
 		var->sprite.player_right.img, &var->sprite.player_right.bpp, \
 		&var->sprite.player_right.length, &var->sprite.player_right.endian);
-	var->player.img.addr = mlx_get_data_addr(var->player.img.img, \
-		&var->player.img.bpp, &var->player.img.length, \
-		&var->player.img.endian);
-	var->player.img.addr = mlx_get_data_addr(var->player.img.img, \
-		&var->player.img.bpp, &var->player.img.length, &var->player.img.endian);
 	var->player.img = var->sprite.player_down;
 }
 

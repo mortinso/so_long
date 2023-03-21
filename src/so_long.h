@@ -45,6 +45,14 @@
 # define PATH_UNLOCK "sprites/48/unlocked.xpm"
 # define PATH_LOCK "sprites/48/locked.xpm"
 
+# define END_1 "sprites/end/bike1.xpm"
+# define END_2 "sprites/end/bike2.xpm"
+# define END_3 "sprites/end/bike3.xpm"
+# define END_4 "sprites/end/bike4.xpm"
+# define END_5 "sprites/end/bike5.xpm"
+# define END_6 "sprites/end/bike6.xpm"
+# define END_SCREEN "sprites/end/screen.xpm"
+
 typedef struct s_img {
 	void	*img;
 	char	*addr;
@@ -72,6 +80,18 @@ typedef struct s_sprite {
 	t_img	unlock;
 }	t_sprite;
 
+typedef struct s_endgame {
+	long	n;
+	t_img	bike1;
+	t_img	bike2;
+	t_img	bike3;
+	t_img	bike4;
+	t_img	bike5;
+	t_img	bike6;
+	t_img	guy;
+	t_img	screen;
+}	t_endgame;
+
 typedef struct s_map {
 	char	**map;
 	t_img	img;
@@ -87,12 +107,14 @@ typedef struct s_map {
 typedef struct s_game {
 	void		*mlx;
 	void		*win;
+	void		*victor_win;
 	int			win_width;
 	int			win_height;
 	int			run;
 	t_map		map;
 	t_sprite	sprite;
 	t_player	player;
+	t_endgame	end;
 }	t_game;
 
 void	get_map(t_game *var, char *fd_path);
@@ -107,7 +129,7 @@ void	img_addr(t_game *var);
 void	img_addr_2(t_game *var);
 void	make_map(t_game *var);
 void	make_extras(t_game *var, int x, int y);
-void	put_tile(t_game *var, t_img *tile, int map_x, int map_y);
+void	put_tile(t_game *var, t_img *tile, int screen_x, int screen_y);
 void	my_pixel_put(t_img *data, int x, int y, int color);
 int		keypress(int key, t_game *var);
 void	move(t_game *var, int x, int y);
@@ -115,5 +137,8 @@ void	coins(t_game *var);
 int		destruct(t_game *var);
 int		render_frame(t_game *var);
 void	end_game(t_game *var);
+void	end_img_init(t_game *var);
+void	end_animation(t_game *var);
+void	end_destruct(t_game *var);
 
 #endif

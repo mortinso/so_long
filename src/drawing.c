@@ -14,8 +14,9 @@
 /* "-schumacher-clean-bold-r-normal--16-160-*-*-*-*-*-*" */
 int	render_frame(t_game *var)
 {
-	mlx_put_image_to_window(var->mlx, var->win, var->map.img.img, 0, 0);
-	if (var->run == 0)
+	if (var->run == 1)
+		mlx_put_image_to_window(var->mlx, var->win, var->map.img.img, 0, 0);
+	else
 		end_animation(var);
 	return (0);
 }

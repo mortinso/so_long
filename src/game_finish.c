@@ -15,17 +15,17 @@
 void	end_animation(t_game *var)
 {
 	var->end.n++;
-	if (var->end.n == 1000)
-		var->end.guy = var->end.bike1;
-	if (var->end.n == 2000)
-		var->end.guy = var->end.bike2;
-	if (var->end.n == 3000)
-		var->end.guy = var->end.bike3;
 	if (var->end.n == 4000)
+		var->end.guy = var->end.bike1;
+	if (var->end.n == 8000)
+		var->end.guy = var->end.bike2;
+	if (var->end.n == 12000)
+		var->end.guy = var->end.bike3;
+	if (var->end.n == 16000)
 		var->end.guy = var->end.bike4;
-	if (var->end.n == 5000)
+	if (var->end.n == 24000)
 		var->end.guy = var->end.bike5;
-	if (var->end.n == 6000)
+	if (var->end.n == 28000)
 	{
 		var->end.n = 0;
 		var->end.guy = var->end.bike6;

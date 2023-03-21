@@ -94,3 +94,12 @@ void	map_walls(t_game *var)
 		j = 0;
 	}
 }
+
+void	path_find(t_game *var)
+{
+	int	x;
+	int	y;
+
+	x = var->player.x;
+	y = var->player.y;
+}

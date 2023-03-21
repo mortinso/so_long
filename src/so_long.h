@@ -122,6 +122,7 @@ void	map_chars(t_game *var, int fd);
 void	map_counters(t_game *var);
 void	map_size(t_game *var, int fd);
 void	map_walls(t_game *var);
+void	path_find(t_game *var);
 int		put_error(int error, t_game *var);
 void	game_init(t_game *var);
 void	img_init(t_game *var);

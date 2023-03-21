@@ -23,6 +23,9 @@ void	get_map(t_game *var, char *fd_path)
 	map_size(var, fd);
 	close(fd);
 	map_walls(var);
+	get_positions(var);
+	path_find(var, (var->player.x / IMG_SIZE), (var->player.y / IMG_SIZE));
+	path_check(var);
 	var->win_width = var->map.x * IMG_SIZE;
 	var->win_height = var->map.y * IMG_SIZE;
 }

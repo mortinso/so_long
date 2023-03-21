@@ -89,7 +89,7 @@ void	make_map(t_game *var)
 			put_tile(var, &var->sprite.floor, x * IMG_SIZE, y * IMG_SIZE);
 			if (var->map.map[y][x] == '1' )
 				put_tile(var, &var->sprite.wall, x * IMG_SIZE, y * IMG_SIZE);
-			if (ft_strchr("CEP", var->map.map[y][x]))
+			if (ft_strchr("ceP", var->map.map[y][x]))
 				make_extras(var, x, y);
 			x++;
 		}
@@ -99,18 +99,10 @@ void	make_map(t_game *var)
 
 void	make_extras(t_game *var, int x, int y)
 {
-	if (var->map.map[y][x] == 'C')
+	if (var->map.map[y][x] == 'c')
 		put_tile(var, &var->sprite.coin, x * IMG_SIZE, y * IMG_SIZE);
-	else if (var->map.map[y][x] == 'E')
-	{
+	else if (var->map.map[y][x] == 'e')
 		put_tile(var, &var->sprite.lock, x * IMG_SIZE, y * IMG_SIZE);
-		var->map.exit_x = x * IMG_SIZE;
-		var->map.exit_y = y * IMG_SIZE;
-	}
 	else if (var->map.map[y][x] == 'P')
-	{
 		put_tile(var, &var->player.img, x * IMG_SIZE, y * IMG_SIZE);
-		var->player.x = x * IMG_SIZE;
-		var->player.y = y * IMG_SIZE;
-	}
 }

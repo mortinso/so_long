@@ -71,18 +71,18 @@ void	move(t_game *var, int x, int y)
 		[(var->player.x + (x * IMG_SIZE)) / IMG_SIZE] != '1'))
 	{
 		if (!(var->map.map[(var->player.y + (y * IMG_SIZE)) / IMG_SIZE] \
-			[(var->player.x + (x * IMG_SIZE)) / IMG_SIZE] == 'E' && \
+			[(var->player.x + (x * IMG_SIZE)) / IMG_SIZE] == 'e' && \
 			var->map.coin_count != 0))
 		{
 			var->player.x += x * IMG_SIZE;
 			var->player.y += y * IMG_SIZE;
 			if ((var->map.map[var->player.y / IMG_SIZE] \
-				[var->player.x / IMG_SIZE] == 'C'))
+				[var->player.x / IMG_SIZE] == 'c'))
 			{
 				coins(var);
 			}
 			if ((var->map.map[var->player.y / IMG_SIZE] \
-				[var->player.x / IMG_SIZE] == 'E'))
+				[var->player.x / IMG_SIZE] == 'e'))
 			{
 				end_game(var);
 			}
@@ -96,7 +96,7 @@ void	coins(t_game *var)
 {
 	put_tile(var, &var->sprite.floor, var->player.x, var->player.y);
 	var->map.coin_count--;
-	var->map.map[var->player.y / IMG_SIZE][var->player.x / IMG_SIZE] = '0';
+	var->map.map[var->player.y / IMG_SIZE][var->player.x / IMG_SIZE] = 'O';
 	if (var->map.coin_count == 0)
 	{
 		put_tile(var, &var->sprite.floor, var->map.exit_x, var->map.exit_y);

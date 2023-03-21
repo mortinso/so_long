@@ -33,7 +33,7 @@ void	map_chars(t_game *var, int fd)
 			var->map.exit_count++;
 		else if (buf == 'P')
 			var->map.player_count++;
-		else if (!(ft_strchr("01CEP", buf)))
+		else if (!(ft_strchr("01CEP\r", buf)))
 			put_error(2, var);
 	}
 	var->map.y = y;
@@ -56,6 +56,8 @@ void	map_size(t_game *var, int fd)
 	{
 		if (var->map.map[i][ft_strlen(var->map.map[i]) - 1] == '\n')
 			var->map.map[i][ft_strlen(var->map.map[i]) - 1] = '\0';
+		if (var->map.map[i][ft_strlen(var->map.map[i]) - 1] == '\r')
+			var->map.map[i][ft_strlen(var->map.map[i]) - 1] = '\0';
 		i++;
 	}
 	i = 0;
@@ -70,36 +72,66 @@ void	map_size(t_game *var, int fd)
 
 void	map_walls(t_game *var)
 {
-	int	i;
-	int	j;
+	int	y;
+	int	x;
 
-	i = 0;
-	j = 0;
-	while (i < var->map.y)
+	y = 0;
+	while (y < var->map.y)
 	{
-		if (i == 0 || (i == var->map.y - 1))
+		x = 0;
+		if (y == 0 || (y == var->map.y - 1))
 		{
-			while (j < var->map.x)
+			while (x < var->map.x)
 			{
-				if (var->map.map[i][j++] != '1')
+				if (var->map.map[y][x++] != '1')
 					put_error(5, var);
 			}
 		}
-		if ((var->map.map[i][0] != '1') || (var->map.map[i][var->map.x - 1] \
+		if ((var->map.map[y][0] != '1') || (var->map.map[y][var->map.x - 1] \
 			!= '1'))
 		{
 			put_error(5, var);
 		}
-		i++;
-		j = 0;
+		y++;
 	}
 }
 
-void	path_find(t_game *var)
+void	path_find(t_game *var, int x, int y)
+{
+	if (var->map.map[y][x] == '0')
+		var->map.map[y][x] = 'O';
+	if (var->map.map[y][x] == 'E')
+	{
+		var->map.map[y][x] = 'e';
+		return ;
+	}
+	if (var->map.map[y][x] == 'C')
+		var->map.map[y][x] = 'c';
+	if (ft_strchr("0CE", var->map.map[y][x + 1]))
+		path_find(var, x + 1, y);
+	if (ft_strchr("0CE", var->map.map[y][x - 1]))
+		path_find(var, x - 1, y);
+	if (ft_strchr("0CE", var->map.map[y + 1][x]))
+		path_find(var, x, y + 1);
+	if (ft_strchr("0CE", var->map.map[y - 1][x]))
+		path_find(var, x, y - 1);
+}
+
+void	path_check(t_game *var)
 {
 	int	x;
 	int	y;
 
-	x = var->player.x;
-	y = var->player.y;
+	y = 0;
+	while (y < var->map.y)
+	{
+		x = 0;
+		while (var->map.map[y][x])
+		{
+			if ((ft_strchr("CE", var->map.map[y][x])))
+				put_error(6, var);
+			x++;
+		}
+		y++;
+	}
 }

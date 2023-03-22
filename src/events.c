@@ -83,7 +83,7 @@ void	move(t_game *var, int x, int y)
 			if ((var->map.map[var->player.y / IMG_SIZE] \
 				[var->player.x / IMG_SIZE] == 'e'))
 				end_game(var);
-			ft_printf("Number of moves: %i\n", ++var->player.moves);
+			var->player.moves++;
 		}
 	}
 	put_tile(var, &var->player.img, var->player.x, var->player.y);

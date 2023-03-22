@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 17:48:47 by mortins-          #+#    #+#             */
-/*   Updated: 2023/03/08 17:53:08 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/03/22 16:43:58 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	end_animation(t_game *var)
 		var->end.guy = var->end.bike3;
 	if (var->end.n == 16000)
 		var->end.guy = var->end.bike4;
-	if (var->end.n == 24000)
+	if (var->end.n == 20000)
 		var->end.guy = var->end.bike5;
-	if (var->end.n == 28000)
+	if (var->end.n == 24000)
 	{
 		var->end.n = 0;
 		var->end.guy = var->end.bike6;

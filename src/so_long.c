@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 14:04:57 by mortins-          #+#    #+#             */
-/*   Updated: 2023/03/08 18:09:30 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/03/22 18:59:48 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	main(int argc, char **argv)
 	if (var.win == NULL)
 		put_error(8, &var);
 	game_init(&var);
+	mlx_set_font(var.mlx, var.win, "-schumacher-*-bold-*-*-*-12-*-*-*-*-*-*-*");
 	mlx_hook(var.win, 2, 1L << 0, keypress, &var);
 	mlx_hook(var.win, 17, 0L, destruct, &var);
 	mlx_loop_hook(var.mlx, render_frame, &var);

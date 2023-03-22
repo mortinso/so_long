@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 16:02:20 by mortins-          #+#    #+#             */
-/*   Updated: 2023/03/08 17:51:28 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/03/22 19:00:49 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,16 @@
 
 # define GREEN_SCREEN 0x00dc00ff
 
-# define PATH_PLAYER_U "sprites/48/player_u.xpm"
-# define PATH_PLAYER_L "sprites/48/player_l.xpm"
-# define PATH_PLAYER_D "sprites/48/player_d.xpm"
-# define PATH_PLAYER_R "sprites/48/player_r.xpm"
-# define PATH_COIN "sprites/48/coin.xpm"
-# define PATH_WALL "sprites/48/wall.xpm"
-# define PATH_FLOOR "sprites/48/floor.xpm"
-# define PATH_UNLOCK "sprites/48/unlocked.xpm"
-# define PATH_LOCK "sprites/48/locked.xpm"
+# define PATH_PLAYER_U "sprites/game/player_u.xpm"
+# define PATH_PLAYER_L "sprites/game/player_l.xpm"
+# define PATH_PLAYER_D "sprites/game/player_d.xpm"
+# define PATH_PLAYER_R "sprites/game/player_r.xpm"
+# define PATH_COIN "sprites/game/coin.xpm"
+# define PATH_WALL "sprites/game/wall.xpm"
+# define PATH_FLOOR "sprites/game/floor.xpm"
+# define PATH_UNLOCK "sprites/game/unlocked.xpm"
+# define PATH_LOCK "sprites/game/locked.xpm"
+# define PATH_COUNTER "sprites/game/counter.xpm"
 
 # define END_1 "sprites/end/bike1.xpm"
 # define END_2 "sprites/end/bike2.xpm"
@@ -74,6 +75,7 @@ typedef struct s_sprite {
 	t_img	player_down;
 	t_img	player_right;
 	t_img	coin;
+	t_img	counter;
 	t_img	wall;
 	t_img	floor;
 	t_img	lock;
@@ -131,8 +133,8 @@ void	img_init(t_game *var);
 void	img_addr(t_game *var);
 void	img_addr_2(t_game *var);
 void	make_map(t_game *var);
-void	make_extras(t_game *var, int x, int y);
 void	put_tile(t_game *var, t_img *tile, int screen_x, int screen_y);
+void	put_move_counter(t_game *var);
 void	my_pixel_put(t_img *data, int x, int y, int color);
 int		keypress(int key, t_game *var);
 void	move(t_game *var, int x, int y);

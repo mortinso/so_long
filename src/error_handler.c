@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 14:57:23 by mortins-          #+#    #+#             */
-/*   Updated: 2023/03/07 14:57:34 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/03/22 18:13:20 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,7 @@ void	map_counters(t_game *var)
 {
 	if (var->map.coin_count >= 1 && var->map.exit_count == 1 && \
 		var->map.player_count == 1)
-	{
 		return ;
-	}
 	if (var->map.coin_count < 1)
 		ft_printf("ERROR:\n The map file must have collectibles.");
 	if (var->map.exit_count < 1)

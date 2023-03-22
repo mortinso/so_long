@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 16:02:14 by mortins-          #+#    #+#             */
-/*   Updated: 2023/03/08 15:57:14 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/03/22 18:12:31 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	map_chars(t_game *var, int fd)
 			var->map.exit_count++;
 		else if (buf == 'P')
 			var->map.player_count++;
-		else if (!(ft_strchr("01CEP\r", buf)))
+		else if (!(ft_strchr("01CEP", buf)))
 			put_error(2, var);
 	}
 	var->map.y = y;
@@ -55,8 +55,6 @@ void	map_size(t_game *var, int fd)
 	while (i < var->map.y)
 	{
 		if (var->map.map[i][ft_strlen(var->map.map[i]) - 1] == '\n')
-			var->map.map[i][ft_strlen(var->map.map[i]) - 1] = '\0';
-		if (var->map.map[i][ft_strlen(var->map.map[i]) - 1] == '\r')
 			var->map.map[i][ft_strlen(var->map.map[i]) - 1] = '\0';
 		i++;
 	}
@@ -89,9 +87,7 @@ void	map_walls(t_game *var)
 		}
 		if ((var->map.map[y][0] != '1') || (var->map.map[y][var->map.x - 1] \
 			!= '1'))
-		{
 			put_error(5, var);
-		}
 		y++;
 	}
 }

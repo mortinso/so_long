@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 14:16:32 by mortins-          #+#    #+#             */
-/*   Updated: 2023/03/08 18:06:17 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/03/22 18:11:32 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	destruct(t_game *var)
 	mlx_destroy_image(var->mlx, var->sprite.player_left.img);
 	mlx_destroy_image(var->mlx, var->sprite.player_down.img);
 	mlx_destroy_image(var->mlx, var->sprite.player_right.img);
+	mlx_destroy_image(var->mlx, var->sprite.counter.img);
 	mlx_destroy_image(var->mlx, var->map.img.img);
 	mlx_clear_window(var->mlx, var->win);
 	mlx_destroy_window(var->mlx, var->win);
@@ -78,14 +79,10 @@ void	move(t_game *var, int x, int y)
 			var->player.y += y * IMG_SIZE;
 			if ((var->map.map[var->player.y / IMG_SIZE] \
 				[var->player.x / IMG_SIZE] == 'c'))
-			{
 				coins(var);
-			}
 			if ((var->map.map[var->player.y / IMG_SIZE] \
 				[var->player.x / IMG_SIZE] == 'e'))
-			{
 				end_game(var);
-			}
 			ft_printf("Number of moves: %i\n", ++var->player.moves);
 		}
 	}

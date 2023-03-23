@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 16:02:20 by mortins-          #+#    #+#             */
-/*   Updated: 2023/03/22 19:00:49 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/03/23 20:19:14 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,24 +35,37 @@
 
 # define GREEN_SCREEN 0x00dc00ff
 
-# define PATH_PLAYER_U "sprites/game/player_u.xpm"
-# define PATH_PLAYER_L "sprites/game/player_l.xpm"
-# define PATH_PLAYER_D "sprites/game/player_d.xpm"
-# define PATH_PLAYER_R "sprites/game/player_r.xpm"
-# define PATH_COIN "sprites/game/coin.xpm"
-# define PATH_WALL "sprites/game/wall.xpm"
-# define PATH_FLOOR "sprites/game/floor.xpm"
-# define PATH_UNLOCK "sprites/game/unlocked.xpm"
-# define PATH_LOCK "sprites/game/locked.xpm"
-# define PATH_COUNTER "sprites/game/counter.xpm"
+# define PLAYER_U "sprites/game/player_u.xpm"
+# define PLAYER_L "sprites/game/player_l.xpm"
+# define PLAYER_D "sprites/game/player_d.xpm"
+# define PLAYER_R "sprites/game/player_r.xpm"
+# define COIN "sprites/game/coin.xpm"
+# define WALL "sprites/game/wall.xpm"
+# define FLOOR "sprites/game/floor.xpm"
+# define LOCK "sprites/game/locked.xpm"
+# define UNLOCK "sprites/game/unlocked.xpm"
+# define COUNTER "sprites/game/counter.xpm"
 
-# define END_1 "sprites/end/bike1.xpm"
-# define END_2 "sprites/end/bike2.xpm"
-# define END_3 "sprites/end/bike3.xpm"
-# define END_4 "sprites/end/bike4.xpm"
-# define END_5 "sprites/end/bike5.xpm"
-# define END_6 "sprites/end/bike6.xpm"
-# define END_SCREEN "sprites/end/screen.xpm"
+# define PLAYER_U1 "sprites/animations/player_u1.xpm"
+# define PLAYER_U2 "sprites/animations/player_u2.xpm"
+# define PLAYER_L1 "sprites/animations/player_l1.xpm"
+# define PLAYER_L2 "sprites/animations/player_l2.xpm"
+# define PLAYER_D1 "sprites/animations/player_d1.xpm"
+# define PLAYER_D2 "sprites/animations/player_d2.xpm"
+# define PLAYER_R1 "sprites/animations/player_r1.xpm"
+# define PLAYER_R2 "sprites/animations/player_r2.xpm"
+
+# define BREAK_1 "sprites/animations/breaking_1.xpm"
+# define BREAK_2 "sprites/animations/breaking_2.xpm"
+# define BREAK_3 "sprites/animations/breaking_3.xpm"
+
+# define END_SCREEN "sprites/game/screen.xpm"
+# define END_1 "sprites/animations/bike1.xpm"
+# define END_2 "sprites/animations/bike2.xpm"
+# define END_3 "sprites/animations/bike3.xpm"
+# define END_4 "sprites/animations/bike4.xpm"
+# define END_5 "sprites/animations/bike5.xpm"
+# define END_6 "sprites/animations/bike6.xpm"
 
 typedef struct s_img {
 	void	*img;
@@ -64,6 +77,10 @@ typedef struct s_img {
 
 typedef struct s_player {
 	t_img	img;
+	t_img	move1;
+	t_img	move2;
+	int		dir_x;
+	int		dir_y;
 	int		x;
 	int		y;
 	int		moves;
@@ -79,6 +96,9 @@ typedef struct s_sprite {
 	t_img	wall;
 	t_img	floor;
 	t_img	lock;
+	t_img	break_1;
+	t_img	break_2;
+	t_img	break_3;
 	t_img	unlock;
 }	t_sprite;
 
@@ -112,7 +132,10 @@ typedef struct s_game {
 	void		*victor_win;
 	int			win_width;
 	int			win_height;
+	int			moving;
+	int			unlocking;
 	int			run;
+	char		*moves;
 	t_map		map;
 	t_sprite	sprite;
 	t_player	player;
@@ -130,20 +153,22 @@ void	path_check(t_game *var);
 int		put_error(int error, t_game *var);
 void	game_init(t_game *var);
 void	img_init(t_game *var);
+void	img_init2(t_game *var);
 void	img_addr(t_game *var);
 void	img_addr_2(t_game *var);
-void	make_map(t_game *var);
 void	put_tile(t_game *var, t_img *tile, int screen_x, int screen_y);
 void	put_move_counter(t_game *var);
 void	my_pixel_put(t_img *data, int x, int y, int color);
+void	make_map(t_game *var);
+int		render_frame(t_game *var);
 int		keypress(int key, t_game *var);
 void	move(t_game *var, int x, int y);
 void	coins(t_game *var);
 int		destruct(t_game *var);
-int		render_frame(t_game *var);
 void	end_game(t_game *var);
 void	end_img_init(t_game *var);
-void	end_animation(t_game *var);
 void	end_destruct(t_game *var);
+void	end_animation(t_game *var);
+void	unlock_animation(t_game *var);
 
 #endif

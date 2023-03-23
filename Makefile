@@ -7,7 +7,7 @@ RM			=	rm -rf
 INC			=	-I mlx -I utils/ft_printf -I utils/get_next_line -I utils/libft
 LIB			=	-L mlx -lmlx -lXext -lX11
 
-SOL_SRCS	=	src/so_long.c src/map_verifier.c src/var_setters.c src/error_handler.c src/game_init.c src/events.c src/function_hubs.c src/drawing.c \
+SOL_SRCS	=	src/so_long.c src/map_verifier.c src/var_setters.c src/error_handler.c src/game_init.c src/events.c src/function_hubs.c src/drawing.c src/animations.c\
 				src/game_finish.c
 
 PTF_SRCS	=	utils/ft_printf/ft_printf.c utils/ft_printf/ft_printf_utils.c

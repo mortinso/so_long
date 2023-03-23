@@ -6,11 +6,32 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 17:12:47 by mortins-          #+#    #+#             */
-/*   Updated: 2023/03/22 18:52:55 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/03/23 20:21:00 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+int	render_frame(t_game *var)
+{
+	if (var->run == 1)
+	{
+		if (var->unlocking == 1)
+			unlock_animation(var);
+		mlx_put_image_to_window(var->mlx, var->win, var->map.img.img, 0, 0);
+		var->moves = ft_itoa(var->player.moves);
+		mlx_string_put(var->mlx, var->win, (var->win_width - IMG_SIZE + 2), \
+			(var->win_height - (IMG_SIZE * 0.4) + 2), 0xFFd0d0c8, \
+			var->moves);
+		mlx_string_put(var->mlx, var->win, (var->win_width - IMG_SIZE), \
+			(var->win_height - (IMG_SIZE * 0.4)), 0xFF606060, \
+			var->moves);
+		free(var->moves);
+	}
+	else
+		end_animation(var);
+	return (0);
+}
 
 void	my_pixel_put(t_img *data, int x, int y, int color)
 {
@@ -18,24 +39,6 @@ void	my_pixel_put(t_img *data, int x, int y, int color)
 
 	dst = data->addr + (y * data->length + x * (data->bpp / 8));
 	*(unsigned int *)dst = color;
-}
-
-int	render_frame(t_game *var)
-{
-	if (var->run == 1)
-	{
-		put_move_counter(var);
-		mlx_put_image_to_window(var->mlx, var->win, var->map.img.img, 0, 0);
-		mlx_string_put(var->mlx, var->win, (var->win_width - IMG_SIZE + 2), \
-			(var->win_height - (IMG_SIZE * 0.4) + 2), 0xFFd0d0c8, \
-			ft_itoa(var->player.moves));
-		mlx_string_put(var->mlx, var->win, (var->win_width - IMG_SIZE), \
-			(var->win_height - (IMG_SIZE * 0.4)), 0xFF606060, \
-			ft_itoa(var->player.moves));
-	}
-	else
-		end_animation(var);
-	return (0);
 }
 
 void	put_tile(t_game *var, t_img *tile, int screen_x, int screen_y)

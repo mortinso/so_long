@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 15:56:44 by mortins-          #+#    #+#             */
-/*   Updated: 2023/03/22 16:50:28 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/03/23 18:57:35 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,16 @@ void	get_map(t_game *var, char *fd_path)
 
 void	game_init(t_game *var)
 {
-	var->player.moves = 0;
 	img_init(var);
 	img_addr(var);
 	make_map(var);
+	put_move_counter(var);
 	var->run = 1;
+	var->moving = 0;
+	var->map.player_count = 0;
+	var->player.moves = 0;
+	var->map.exit_count = 0;
+	var->unlocking = 0;
 }
 
 void	end_game(t_game *var)

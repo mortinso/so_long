@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 14:57:15 by mortins-          #+#    #+#             */
-/*   Updated: 2023/03/22 17:58:03 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/03/23 18:40:17 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,29 @@ void	img_init(t_game *var)
 
 	i = IMG_SIZE;
 	j = IMG_SIZE * 3;
-	var->sprite.unlock.img = mlx_xpm_file_to_image(var->mlx, PATH_UNLOCK, &i, \
+	var->sprite.floor.img = mlx_xpm_file_to_image(var->mlx, FLOOR, &i, &i);
+	var->sprite.wall.img = mlx_xpm_file_to_image(var->mlx, WALL, &i, &i);
+	var->sprite.coin.img = mlx_xpm_file_to_image(var->mlx, COIN, &i, &i);
+	var->sprite.lock.img = mlx_xpm_file_to_image(var->mlx, LOCK, &i, &i);
+	var->sprite.break_1.img = mlx_xpm_file_to_image(var->mlx, BREAK_1, &i, &i);
+	var->sprite.break_2.img = mlx_xpm_file_to_image(var->mlx, BREAK_2, &i, &i);
+	var->sprite.break_3.img = mlx_xpm_file_to_image(var->mlx, BREAK_3, &i, &i);
+	var->sprite.unlock.img = mlx_xpm_file_to_image(var->mlx, UNLOCK, &i, &i);
+	var->sprite.player_up.img = mlx_xpm_file_to_image(var->mlx, PLAYER_U, &i, \
 		&i);
-	var->sprite.lock.img = mlx_xpm_file_to_image(var->mlx, PATH_LOCK, &i, &i);
-	var->sprite.coin.img = mlx_xpm_file_to_image(var->mlx, PATH_COIN, &i, &i);
-	var->sprite.player_up.img = mlx_xpm_file_to_image(var->mlx, \
-		PATH_PLAYER_U, &i, &i);
-	var->sprite.player_left.img = mlx_xpm_file_to_image(var->mlx, \
-		PATH_PLAYER_L, &i, &i);
-	var->sprite.player_down.img = mlx_xpm_file_to_image(var->mlx, \
-		PATH_PLAYER_D, &i, &i);
-	var->sprite.player_right.img = mlx_xpm_file_to_image(var->mlx, \
-		PATH_PLAYER_R, &i, &i);
-	var->sprite.wall.img = mlx_xpm_file_to_image(var->mlx, PATH_WALL, &i, &i);
-	var->sprite.floor.img = mlx_xpm_file_to_image(var->mlx, PATH_FLOOR, &i, &i);
-	var->sprite.counter.img = mlx_xpm_file_to_image(var->mlx, PATH_COUNTER, \
-		&j, &i);
+	var->sprite.player_left.img = mlx_xpm_file_to_image(var->mlx, PLAYER_L, &i, \
+		&i);
+	var->sprite.player_down.img = mlx_xpm_file_to_image(var->mlx, PLAYER_D, &i, \
+		&i);
+	var->sprite.player_right.img = mlx_xpm_file_to_image(var->mlx, PLAYER_R, \
+		&i, &i);
+	var->sprite.counter.img = mlx_xpm_file_to_image(var->mlx, COUNTER, &j, &i);
 	var->map.img.img = mlx_new_image(var->mlx, var->win_width, var->win_height);
+	img_init2(var);
+}
+
+void	img_init2(t_game *var)
+{
 	var->player.img.img = mlx_new_image(var->mlx, IMG_SIZE, IMG_SIZE);
 	mlx_destroy_image(var->mlx, var->player.img.img);
 }
@@ -54,9 +60,23 @@ void	img_addr(t_game *var)
 	var->sprite.lock.addr = mlx_get_data_addr(var->sprite.lock.img, \
 		&var->sprite.lock.bpp, &var->sprite.lock.length, \
 		&var->sprite.lock.endian);
+	var->sprite.break_1.addr = mlx_get_data_addr(var->sprite.break_1.img, \
+		&var->sprite.break_1.bpp, &var->sprite.break_1.length, \
+		&var->sprite.break_1.endian);
+	var->sprite.break_2.addr = mlx_get_data_addr(var->sprite.break_2.img, \
+		&var->sprite.break_2.bpp, &var->sprite.break_2.length, \
+		&var->sprite.break_2.endian);
+	var->sprite.break_3.addr = mlx_get_data_addr(var->sprite.break_3.img, \
+		&var->sprite.break_3.bpp, &var->sprite.break_3.length, \
+		&var->sprite.break_3.endian);
 	var->sprite.unlock.addr = mlx_get_data_addr(var->sprite.unlock.img, \
 		&var->sprite.unlock.bpp, &var->sprite.unlock.length, \
 		&var->sprite.unlock.endian);
+	img_addr_2(var);
+}
+
+void	img_addr_2(t_game *var)
+{
 	var->map.img.addr = mlx_get_data_addr(var->map.img.img, \
 		&var->map.img.bpp, &var->map.img.length, &var->map.img.endian);
 	var->sprite.counter.addr = mlx_get_data_addr(var->sprite.counter.img, \
@@ -65,11 +85,6 @@ void	img_addr(t_game *var)
 	var->sprite.player_up.addr = mlx_get_data_addr(var->sprite.player_up.img, \
 		&var->sprite.player_up.bpp, &var->sprite.player_up.length, \
 		&var->sprite.player_up.endian);
-	img_addr_2(var);
-}
-
-void	img_addr_2(t_game *var)
-{
 	var->sprite.player_left.addr = mlx_get_data_addr(\
 		var->sprite.player_left.img, &var->sprite.player_left.bpp, \
 		&var->sprite.player_left.length, &var->sprite.player_left.endian);

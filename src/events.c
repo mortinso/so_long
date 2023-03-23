@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 14:16:32 by mortins-          #+#    #+#             */
-/*   Updated: 2023/03/22 18:11:32 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/03/23 17:31:19 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,11 @@ int	keypress(int key, t_game *var)
 int	destruct(t_game *var)
 {
 	mlx_destroy_image(var->mlx, var->sprite.coin.img);
-	mlx_destroy_image(var->mlx, var->sprite.unlock.img);
 	mlx_destroy_image(var->mlx, var->sprite.lock.img);
+	mlx_destroy_image(var->mlx, var->sprite.break_1.img);
+	mlx_destroy_image(var->mlx, var->sprite.break_2.img);
+	mlx_destroy_image(var->mlx, var->sprite.break_3.img);
+	mlx_destroy_image(var->mlx, var->sprite.unlock.img);
 	mlx_destroy_image(var->mlx, var->sprite.wall.img);
 	mlx_destroy_image(var->mlx, var->sprite.floor.img);
 	mlx_destroy_image(var->mlx, var->sprite.player_up.img);
@@ -67,23 +70,24 @@ int	destruct(t_game *var)
 
 void	move(t_game *var, int x, int y)
 {
+	int	pos_x;
+	int	pos_y;
+
+	pos_x = var->player.x / IMG_SIZE;
+	pos_y = var->player.y / IMG_SIZE;
 	put_tile(var, &var->sprite.floor, var->player.x, var->player.y);
-	if ((var->map.map[(var->player.y + (y * IMG_SIZE)) / IMG_SIZE] \
-		[(var->player.x + (x * IMG_SIZE)) / IMG_SIZE] != '1'))
+	if ((var->map.map[pos_y + y][pos_x + x] != '1'))
 	{
-		if (!(var->map.map[(var->player.y + (y * IMG_SIZE)) / IMG_SIZE] \
-			[(var->player.x + (x * IMG_SIZE)) / IMG_SIZE] == 'e' && \
-			var->map.coin_count != 0))
+		if (var->map.map[pos_y + y][pos_x + x] != 'e' || \
+			(var->map.coin_count == 0 && var->unlocking == 0))
 		{
-			var->player.x += x * IMG_SIZE;
-			var->player.y += y * IMG_SIZE;
-			if ((var->map.map[var->player.y / IMG_SIZE] \
-				[var->player.x / IMG_SIZE] == 'c'))
-				coins(var);
-			if ((var->map.map[var->player.y / IMG_SIZE] \
-				[var->player.x / IMG_SIZE] == 'e'))
-				end_game(var);
+			var->player.x += (x * IMG_SIZE);
+			var->player.y += (y * IMG_SIZE);
 			var->player.moves++;
+			if (var->map.map[pos_y + y][pos_x + x] == 'c')
+				coins(var);
+			if (var->map.map[pos_y + y][pos_x + x] == 'e')
+				end_game(var);
 		}
 	}
 	put_tile(var, &var->player.img, var->player.x, var->player.y);
@@ -95,8 +99,5 @@ void	coins(t_game *var)
 	var->map.coin_count--;
 	var->map.map[var->player.y / IMG_SIZE][var->player.x / IMG_SIZE] = 'O';
 	if (var->map.coin_count == 0)
-	{
-		put_tile(var, &var->sprite.floor, var->map.exit_x, var->map.exit_y);
-		put_tile(var, &var->sprite.unlock, var->map.exit_x, var->map.exit_y);
-	}
+		var->unlocking = 1;
 }

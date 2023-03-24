@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 14:16:32 by mortins-          #+#    #+#             */
-/*   Updated: 2023/03/24 13:12:19 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/03/24 15:52:30 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,22 @@ int	keypress(int key, t_game *var)
 {
 	if (key == KEY_ESC)
 		destruct(var);
-	if ((key == KEY_W || key == KEY_UP) && var->run == 1)
+	if (key == KEY_UP && var->run == 1)
 	{
 		var->player.img = var->sprite.player_up;
 		move(var, 0, -1);
 	}
-	if ((key == KEY_A || key == KEY_LEFT) && var->run == 1)
+	if (key == KEY_LEFT && var->run == 1)
 	{
 		var->player.img = var->sprite.player_left;
 		move(var, -1, 0);
 	}
-	if ((key == KEY_S || key == KEY_DOWN) && var->run == 1)
+	if (key == KEY_DOWN && var->run == 1)
 	{
 		var->player.img = var->sprite.player_down;
 		move(var, 0, 1);
 	}
-	if ((key == KEY_D || key == KEY_RIGHT) && var->run == 1)
+	if (key == KEY_RIGHT && var->run == 1)
 	{
 		var->player.img = var->sprite.player_right;
 		move(var, 1, 0);

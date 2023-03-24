@@ -39,7 +39,7 @@ map3:		$(NAME)
 			@./so_long maps/map3.ber
 
 val:		$(NAME)
-			@valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./so_long maps/map1.ber
+			@valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./so_long maps/map4.ber
 
 clean:
 			@$(RM) obj

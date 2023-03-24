@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 17:12:47 by mortins-          #+#    #+#             */
-/*   Updated: 2023/03/24 13:12:12 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/03/24 16:03:32 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,21 @@
 
 int	render_frame(t_game *var)
 {
+	char	*moves;
+
 	if (var->run == 1)
 	{
 		if (var->unlocking == 1)
 			unlock_animation(var);
 		mlx_put_image_to_window(var->mlx, var->win, var->map.img.img, 0, 0);
-		var->moves = ft_itoa(var->player.moves);
+		moves = ft_itoa(var->player.moves);
 		mlx_string_put(var->mlx, var->win, (var->win_width - IMG_SIZE + 2), \
 			(var->win_height - (IMG_SIZE * 0.4) + 2), 0xFFd0d0c8, \
-			var->moves);
+			moves);
 		mlx_string_put(var->mlx, var->win, (var->win_width - IMG_SIZE), \
 			(var->win_height - (IMG_SIZE * 0.4)), 0xFF606060, \
-			var->moves);
-		free(var->moves);
+			moves);
+		free(moves);
 	}
 	else
 		end_animation(var);

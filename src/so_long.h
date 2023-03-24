@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 16:02:20 by mortins-          #+#    #+#             */
-/*   Updated: 2023/03/24 14:39:01 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/03/24 16:03:51 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,12 @@
 # include "../utils/ft_printf/ft_printf.h"
 # include "../utils/get_next_line/get_next_line.h"
 # include "../utils/libft/libft.h"
-# include <stdio.h>
-# include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
 
 # define IMG_SIZE 48
 
 # define KEY_ESC 65307
-# define KEY_W 119
-# define KEY_A 97
-# define KEY_S 115
-# define KEY_D 100
 # define KEY_UP 65362
 # define KEY_LEFT 65361
 # define KEY_DOWN 65364
@@ -136,7 +130,6 @@ typedef struct s_game {
 	int			moving;
 	int			unlocking;
 	int			run;
-	char		*moves;
 	t_map		map;
 	t_sprite	sprite;
 	t_player	player;

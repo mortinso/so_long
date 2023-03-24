@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 16:02:20 by mortins-          #+#    #+#             */
-/*   Updated: 2023/03/23 20:19:14 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/03/24 14:39:01 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "../utils/ft_printf/ft_printf.h"
 # include "../utils/get_next_line/get_next_line.h"
 # include "../utils/libft/libft.h"
+# include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
@@ -151,6 +152,7 @@ void	get_positions(t_game *var);
 void	path_find(t_game *var, int x, int y);
 void	path_check(t_game *var);
 int		put_error(int error, t_game *var);
+int		put_error2(int error, t_game *var);
 void	game_init(t_game *var);
 void	img_init(t_game *var);
 void	img_init2(t_game *var);

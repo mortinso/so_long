@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 15:56:44 by mortins-          #+#    #+#             */
-/*   Updated: 2023/03/23 18:57:35 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/03/24 15:05:16 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,12 @@
 
 void	get_map(t_game *var, char *fd_path)
 {
-	int	fd;
+	int		fd;
 
+	if (!ft_strnstr(fd_path + (ft_strlen(fd_path) - 4), ".ber", 5))
+	{
+		put_error(10, var);
+	}
 	fd = open(fd_path, O_RDONLY);
 	map_chars(var, fd);
 	close(fd);
@@ -26,8 +30,6 @@ void	get_map(t_game *var, char *fd_path)
 	get_positions(var);
 	path_find(var, (var->player.x / IMG_SIZE), (var->player.y / IMG_SIZE));
 	path_check(var);
-	var->win_width = var->map.x * IMG_SIZE;
-	var->win_height = var->map.y * IMG_SIZE;
 }
 
 void	game_init(t_game *var)
@@ -57,4 +59,33 @@ void	end_game(t_game *var)
 		0, 0);
 	mlx_hook(var->victor_win, 2, 1L << 0, keypress, var);
 	mlx_hook(var->victor_win, 17, 0L, destruct, var);
+}
+
+void	get_positions(t_game *var)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (y < var->map.y)
+	{
+		x = 0;
+		while (var->map.map[y][x])
+		{
+			if (var->map.map[y][x] == 'E')
+			{
+				var->map.exit_x = x * IMG_SIZE;
+				var->map.exit_y = y * IMG_SIZE;
+			}
+			else if (var->map.map[y][x] == 'P')
+			{
+				var->player.x = x * IMG_SIZE;
+				var->player.y = y * IMG_SIZE;
+			}
+			x++;
+		}
+		y++;
+	}
+	var->win_width = var->map.x * IMG_SIZE;
+	var->win_height = var->map.y * IMG_SIZE;
 }

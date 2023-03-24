@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 16:02:14 by mortins-          #+#    #+#             */
-/*   Updated: 2023/03/22 18:12:31 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/03/24 14:39:28 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,20 @@ void	map_size(t_game *var, int fd)
 		put_error(3, var);
 	i = 0;
 	while (i < var->map.y)
-		var->map.map[i++] = get_next_line(fd);
-	var->map.map[i] = NULL;
-	i = 0;
-	while (i < var->map.y)
 	{
+		var->map.map[i] = get_next_line(fd);
+		if (ft_strlen(var->map.map[i]) == 0)
+			put_error(4, var);
 		if (var->map.map[i][ft_strlen(var->map.map[i]) - 1] == '\n')
-			var->map.map[i][ft_strlen(var->map.map[i]) - 1] = '\0';
+			var->map.map[i][ft_strlen(var->map.map[i]) - 1] = 0;
 		i++;
 	}
+	var->map.map[i] = NULL;
 	i = 0;
 	while (i < (var->map.y - 1))
 	{
 		if (ft_strlen(var->map.map[i]) != ft_strlen(var->map.map[i + 1]))
-			put_error(4, var);
+			put_error(5, var);
 		i++;
 	}
 	var->map.x = ft_strlen(var->map.map[0]);
@@ -82,12 +82,12 @@ void	map_walls(t_game *var)
 			while (x < var->map.x)
 			{
 				if (var->map.map[y][x++] != '1')
-					put_error(5, var);
+					put_error(6, var);
 			}
 		}
 		if ((var->map.map[y][0] != '1') || (var->map.map[y][var->map.x - 1] \
 			!= '1'))
-			put_error(5, var);
+			put_error(6, var);
 		y++;
 	}
 }
@@ -125,7 +125,7 @@ void	path_check(t_game *var)
 		while (var->map.map[y][x])
 		{
 			if ((ft_strchr("CE", var->map.map[y][x])))
-				put_error(6, var);
+				put_error(7, var);
 			x++;
 		}
 		y++;

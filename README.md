@@ -12,6 +12,5 @@ I took <b>HEAVY</b> inspiration from Pokemon games that I played as a kid. All s
 &nbsp;
 #### Games used:
 * Pokemon Fire Red/Leaf Green
-* Pokemon Emerald
 * Pokemon Diamond/Pearl
 * Pokemon HeartGold/SoulSilver

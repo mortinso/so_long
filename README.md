@@ -1,6 +1,6 @@
 # so_long
 
-This is my rendition of the "so_long", a 42 project in which:
+This is my rendition of the "so_long"(Final Grade 120%), a 42 project in which:
 <table>
   <td>
 		You must create a basic 2D game in which a dolphin escapes Earth after eating some fish. Instead of a dolphin, fish, and the Earth, you can use any character, any collectible and any place you want.

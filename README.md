@@ -17,7 +17,7 @@
 	1. <a href="https://github.com/WudDoo/so_long#-about">About</a><br>
 	2. <a href="https://github.com/WudDoo/so_long#%EF%B8%8F-installation">Installation</a><br>
 	3. <a href="https://github.com/WudDoo/so_long#-running">Running</a><br>
-	4. <a href="https://github.com/WudDoo/so_long#-game rules">Game Rules</a><br>
+	4. <a href="https://github.com/WudDoo/so_long#-game-rules">Game Rules</a><br>
 </td>
 </tr>
 </table>

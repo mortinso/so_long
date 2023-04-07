@@ -4,8 +4,8 @@ NAME		=	so_long
 CC			=	gcc
 CFLAGS		=	-Wall -Werror -Wextra
 RM			=	rm -rf
-INC			=	-I mlx -I utils/ft_printf -I utils/get_next_line -I utils/libft
-LIB			=	-L mlx -lmlx -lXext -lX11
+INC			=	-I minilibx-linux -I utils/ft_printf -I utils/get_next_line -I utils/libft
+LIB			=	-L minilibx-linux -lmlx -lXext -lX11
 
 SOL_SRCS	=	src/so_long.c src/map_verifier.c src/error_handler.c src/game_init.c src/events.c src/function_hubs.c src/drawing.c src/animations.c\
 				src/game_finish.c

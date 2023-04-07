@@ -15,9 +15,10 @@
 <tr>
 <td>
 	1. <a href="https://github.com/WudDoo/so_long#-about">About</a><br>
-	2. <a href="https://github.com/WudDoo/so_long#%EF%B8%8F-installation">Installation</a><br>
-	3. <a href="https://github.com/WudDoo/so_long#-running">Running</a><br>
-	4. <a href="https://github.com/WudDoo/so_long#-game-rules">Game Rules</a><br>
+	2. <a href="https://github.com/WudDoo/so_long#%EF%B8%8F-requirements">Requirements</a><br>
+	3. <a href="https://github.com/WudDoo/so_long#%EF%B8%8F-installation">Installation</a><br>
+	4. <a href="https://github.com/WudDoo/so_long#-running">Running</a><br>
+	5. <a href="https://github.com/WudDoo/so_long#-game-rules">Game Rules</a><br>
 </td>
 </tr>
 </table>
@@ -40,8 +41,17 @@ I took <b>HEAVY</b> inspiration from Pokemon games that I played as a kid. All s
 * Pokemon Diamond/Pearl
 * Pokemon HeartGold/SoulSilver
 
-#### Requirements
+<br>
+
+## ✔️ Requirements
 * Linux
+* MinilibX only support TrueColor visual type (8,15,16,24 or 32 bits depth)
+* gcc
+* make
+* X11 include files (package xorg)
+* XShm extension must be present (package libxext-dev)
+* Utility functions from BSD systems - development files (package libbsd-dev)
+* e.g. sudo apt-get install gcc make xorg libxext-dev libbsd-dev (Debian/Ubuntu)
 
 <br>
 
@@ -82,7 +92,7 @@ You can run the game with a custom map file as long as it follows the <a href="h
 
 <br>
 
-## 🎮 Game Rules
+## 📝 Game Rules
 
 The executable so_long will receive a map as the only argument, and this map must have a `.ber` filetype.
 

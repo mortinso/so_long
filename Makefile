@@ -22,7 +22,7 @@ OBJS		=	$(addprefix obj/, $(SRCS:%.c=%.o))
 all:		$(NAME)
 
 $(NAME):	$(OBJS)
-			$(CC) $(CFLAGS) -g $(INC) $(OBJS) $(LIB) -o $@
+			@$(CC) $(CFLAGS) -g $(INC) $(OBJS) $(LIB) -o $@
 
 obj/%.o:	%.c
 			@mkdir -p obj/$(dir $<)

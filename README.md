@@ -18,7 +18,8 @@
 	2. <a href="https://github.com/WudDoo/so_long#%EF%B8%8F-requirements">Requirements</a><br>
 	3. <a href="https://github.com/WudDoo/so_long#%EF%B8%8F-installation">Installation</a><br>
 	4. <a href="https://github.com/WudDoo/so_long#-running">Running</a><br>
-	5. <a href="https://github.com/WudDoo/so_long#-game-rules">Game Rules</a><br>
+	5. <a href="https://github.com/WudDoo/so_long#-controls">Controls</a><br>
+	6. <a href="https://github.com/WudDoo/so_long#-game-rules">Game Rules</a><br>
 </td>
 </tr>
 </table>
@@ -45,13 +46,9 @@ I took <b>HEAVY</b> inspiration from Pokemon games that I played as a kid. All s
 
 ## ✔️ Requirements
 * Linux
-* MinilibX only support TrueColor visual type (8,15,16,24 or 32 bits depth)
 * gcc
 * make
-* X11 include files (package xorg)
-* XShm extension must be present (package libxext-dev)
-* Utility functions from BSD systems - development files (package libbsd-dev)
-* e.g. sudo apt-get install gcc make xorg libxext-dev libbsd-dev (Debian/Ubuntu)
+* <a href="https://github.com/42Paris/minilibx-linux">MinilibX</a> and it's requirements
 
 <br>
 
@@ -63,25 +60,15 @@ I took <b>HEAVY</b> inspiration from Pokemon games that I played as a kid. All s
 git clone git@github.com:WudDoo/so_long.git
 ```
 
-### Installing the mlx library
-
-```
-git clone https://github.com/42Paris/minilibx-linux.git
-cd minilibx-linux/
-make
-cd ..
-mv minilibx-linux so_long
-```
-
 ### Compiling
 
 To compile, run `make` at the root of the `so_long` directory.
 
 <br>
 
-## 🎮 Running
+## 🖥️ Running
 
-Run the executable file followed by a valid map file, at the root of the `so_long` directory. Example:
+Run the executable file followed by a valid map file. I added some basic map files but you can  Example:
 ```Shell
 $ ./so_long maps/map1.ber
 ```
@@ -92,9 +79,16 @@ You can run the game with a custom map file as long as it follows the <a href="h
 
 <br>
 
+## 🎮 Controls
+
+#### Arrow keys - Movement
+#### Esc key - Closing the program
+
+<br>
+
 ## 📝 Game Rules
 
-The executable so_long will receive a map as the only argument, and this map must have a `.ber` filetype.
+The executable `so_long will` receive a map as the only argument, and this map must have a `.ber` filetype.
 
 The file also must follow these rules:
 
@@ -114,4 +108,4 @@ The file also must follow these rules:
 
 If any of these checks fail, the game will end with `Error\n` followed by a custom message.
 
-The goal is for the player( to collect all the collectibles on the map before going to an exit in the least possible number of steps
+The goal is for the player to collect all the collectibles on the map before going to an exit in the least possible number of moves.

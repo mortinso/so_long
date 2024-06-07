@@ -6,14 +6,14 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 16:02:20 by mortins-          #+#    #+#             */
-/*   Updated: 2023/04/07 17:55:31 by mortins-         ###   ########.fr       */
+/*   Updated: 2024/06/07 17:34:09 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# include "../minilibx-linux/mlx.h"
+# include <mlx.h>
 # include "../utils/ft_printf/ft_printf.h"
 # include "../utils/get_next_line/get_next_line.h"
 # include "../utils/libft/libft.h"

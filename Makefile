@@ -1,7 +1,7 @@
 # -*- MakeFile -*-
 
 NAME		=	so_long
-CC			=	gcc
+CC			=	cc
 CFLAGS		=	-Wall -Werror -Wextra
 RM			=	rm -rf
 INC			=	-I minilibx-linux -I utils/ft_printf -I utils/get_next_line -I utils/libft
@@ -15,19 +15,18 @@ GNL_SRCS	=	utils/get_next_line/get_next_line.c utils/get_next_line/get_next_line
 LFT_SRCS	=	utils/libft/ft_strchr.c utils/libft/ft_itoa.c utils/libft/ft_strnstr.c
 
 SRCS		=	$(LFT_SRCS) $(GNL_SRCS) $(PTF_SRCS) $(SOL_SRCS)
-OBJS		=	$(patsubst utils/get_next_line/%, obj/%, $(GNL_SRCS:%.c=%.o)) $(patsubst utils/ft_printf/%, obj/%, $(PTF_SRCS:%.c=%.o)) \
-				$(patsubst utils/libft/%, obj/%, $(LFT_SRCS:%.c=%.o)) $(patsubst src/%, obj/%, $(SOL_SRCS:%.c=%.o))
+OBJS		=	$(addprefix obj/, $(SRCS:%.c=%.o))
 
 .PHONY:		all clean fclean re val map1 map2 map3
 
 all:		$(NAME)
 
 $(NAME):	$(OBJS)
-			@$(CC) $(CFLAGS) -g $(INC) $(SRCS) $(LIB) -o $@
+			$(CC) $(CFLAGS) -g $(INC) $(OBJS) $(LIB) -o $@
 
-obj/%.o:	$(SRCS)
-			@mkdir -p obj
-			@$(CC) $(CFLAGS) -o $@ -c $<
+obj/%.o:	%.c
+			@mkdir -p obj/$(dir $<)
+			@$(CC) $(CFLAGS) $(INC) -o $@ -c $<
 
 map1:		$(NAME)
 			@./so_long maps/map1.ber
